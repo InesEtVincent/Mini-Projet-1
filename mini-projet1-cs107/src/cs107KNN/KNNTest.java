@@ -15,6 +15,7 @@ public class KNNTest {
 		//electLabelTest();
 		//knnClassifyTest();
 		//accuracyTest();
+		//Vincent
 	}
 
 	public static void extractIntTest() {
