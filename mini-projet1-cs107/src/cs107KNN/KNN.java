@@ -52,14 +52,10 @@ public class KNN {
 			data[i]=pixelValue;
 		}
 		
-		
 		for (int i = 0; i < nombreImages; i++) {
 			for (int j = 0; j < hauteurImage; j++) {
 				for (int j2 = 0; j2 < largeurImage; j2++) {
-					
-					
 					tensor[i][j][j2]=data[18+j2+i*largeurImage*hauteurImage+j*largeurImage];
-					
 				}
 			}
 		}
