@@ -12,8 +12,8 @@ public class KNNTest {
 		squaredEuclideanDistanceTest();
 		invertedSimilarityTest();
 		quicksortTest();
-		//indexOfMaxTest();
-		//electLabelTest();
+		indexOfMaxTest();
+		electLabelTest();
 		//knnClassifyTest();
 		//accuracyTest();
 	}
