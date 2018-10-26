@@ -18,6 +18,7 @@ public class KNN {
 				+ Helpers.interpretUnsigned(bits) + "\n\tinterpretée comme byte signé donne "
 				+ Helpers.interpretSigned(bits));
 		System.out.println(Helpers.byteToBinaryString (b1));
+
 		//System.out.println(parseIDXimages(Helpers.readBinaryFile("datasets/10-per-digit_images_train")));
 	}
 	/**
@@ -166,119 +167,118 @@ public class KNN {
 	 * @return the array of sorted indices
 	 * 
 	 *         Example: values = quicksortIndices([3, 7, 0, 9]) gives [2, 0, 1, 3]
-	 */
+	 */	
 	public static int[] quicksortIndices(float[] values) {
-
-		int l =0;   
-		int low=0;
-		int h = values.length-1 ;
-		int high=h;
-		int pivot = l;   
-		int[] indices = new int [values.length];
+		int[] indices = new int [values.length];   					//créer tableau indices
+		for (int i = 0; i < indices.length; i++) {
+			indices[i]=i;
+		}
+		quicksortIndices(values,indices, 0,values.length-1);
+		
+		return indices;
+	}
+	/**
+	 * @brief Sorts the provided values between two indices while applying the same
+	 *        transformations to the array of indices
+	 * 
+	 * @param values  the values to sort
+	 * @param indices the indices to sort according to the corresponding values
+	 * @param         low, high are the **inclusive** bounds of the portion of array
+	 *                to sort
+	 */
+	public static void quicksortIndices(float[] values, int[] indices, int low, int high) {
+		int l = low;   
+		int h = high ;
+		float pivot =  values[low];   
 		do {
 			if (values[l] < pivot) {
 				l++;
 			}
 			else if (values[h] > pivot) { 
-
 				h--;
-
 			}
 			else {
-				int temp = l;
-				l=h;
-				h=temp;
+				swap(l,h, values,indices);
 				l++;
 				h--;
 			}
-		}while (l <=h) ;
+		}while (l <= h) ;
 		if (low < h) { 
 			quicksortIndices(values, indices, low, h);
 		}
 		if (high > l) {
 			quicksortIndices(values, indices, l, high);
 		}
-
 	
+	}
 
-	return indices;
-}
+	/**
+	 * @brief Swaps the elements of the given arrays at the provided positions
+	 * 
+	 * @param         i, j the indices of the elements to swap
+	 * @param values  the array floats whose values are to be swapped
+	 * @param indices the array of ints whose values are to be swapped
+	 */
+	public static void swap(int i, int j, float[] values, int[] indices) {
+		float temp=values[i];
+		values[i]=values[j];
+		values[j]=temp;
+		int temp2=indices[i];
+		indices[i]=indices[j];
+		indices[j]=temp2;
+	}
 
-/**
- * @brief Sorts the provided values between two indices while applying the same
- *        transformations to the array of indices
- * 
- * @param values  the values to sort
- * @param indices the indices to sort according to the corresponding values
- * @param         low, high are the **inclusive** bounds of the portion of array
- *                to sort
- */
-public static void quicksortIndices(float[] values, int[] indices, int low, int high) {
-	// TODO: Implémenter
-}
+	/**
+	 * @brief Returns the index of the largest element in the array
+	 * 
+	 * @param array an array of integers
+	 * 
+	 * @return the index of the largest integer
+	 */
+	public static int indexOfMax(int[] array) {
+		// TODO: Implémenter
+		return 0;
+	}
 
-/**
- * @brief Swaps the elements of the given arrays at the provided positions
- * 
- * @param         i, j the indices of the elements to swap
- * @param values  the array floats whose values are to be swapped
- * @param indices the array of ints whose values are to be swapped
- */
-public static void swap(int i, int j, float[] values, int[] indices) {
-	// TODO: Implémenter
-}
+	/**
+	 * The k first elements of the provided array vote for a label
+	 *
+	 * @param sortedIndices the indices sorted by non-decreasing distance
+	 * @param labels        the labels corresponding to the indices
+	 * @param k             the number of labels asked to vote
+	 *
+	 * @return the winner of the election
+	 */
+	public static byte electLabel(int[] sortedIndices, byte[] labels, int k) {
+		// TODO: Implémenter
+		return 0;
+	}
 
-/**
- * @brief Returns the index of the largest element in the array
- * 
- * @param array an array of integers
- * 
- * @return the index of the largest integer
- */
-public static int indexOfMax(int[] array) {
-	// TODO: Implémenter
-	return 0;
-}
+	/**
+	 * Classifies the symbol drawn on the provided image
+	 *
+	 * @param image       the image to classify
+	 * @param trainImages the tensor of training images
+	 * @param trainLabels the list of labels corresponding to the training images
+	 * @param k           the number of voters in the election process
+	 *
+	 * @return the label of the image
+	 */
+	public static byte knnClassify(byte[][] image, byte[][][] trainImages, byte[] trainLabels, int k) {
+		// TODO: Implémenter
+		return 0;
+	}
 
-/**
- * The k first elements of the provided array vote for a label
- *
- * @param sortedIndices the indices sorted by non-decreasing distance
- * @param labels        the labels corresponding to the indices
- * @param k             the number of labels asked to vote
- *
- * @return the winner of the election
- */
-public static byte electLabel(int[] sortedIndices, byte[] labels, int k) {
-	// TODO: Implémenter
-	return 0;
-}
-
-/**
- * Classifies the symbol drawn on the provided image
- *
- * @param image       the image to classify
- * @param trainImages the tensor of training images
- * @param trainLabels the list of labels corresponding to the training images
- * @param k           the number of voters in the election process
- *
- * @return the label of the image
- */
-public static byte knnClassify(byte[][] image, byte[][][] trainImages, byte[] trainLabels, int k) {
-	// TODO: Implémenter
-	return 0;
-}
-
-/**
- * Computes accuracy between two arrays of predictions
- * 
- * @param predictedLabels the array of labels predicted by the algorithm
- * @param trueLabels      the array of true labels
- * 
- * @return the accuracy of the predictions. Its value is in [0, 1]
- */
-public static double accuracy(byte[] predictedLabels, byte[] trueLabels) {
-	// TODO: Implémenter
-	return 0d;
-}
+	/**
+	 * Computes accuracy between two arrays of predictions
+	 * 
+	 * @param predictedLabels the array of labels predicted by the algorithm
+	 * @param trueLabels      the array of true labels
+	 * 
+	 * @return the accuracy of the predictions. Its value is in [0, 1]
+	 */
+	public static double accuracy(byte[] predictedLabels, byte[] trueLabels) {
+		// TODO: Implémenter
+		return 0d;
+	}
 }
