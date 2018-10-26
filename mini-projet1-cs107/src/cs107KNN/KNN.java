@@ -45,13 +45,13 @@ public class KNN {
 		int hauteurImage = extractInt(data[10], data[11], data[12], data[13]);
 		int largeurImage = extractInt(data[14], data[15], data[16],data[17]);
 		byte[][][] tensor = new byte[nombreImages][hauteurImage][largeurImage];
-		
+
 		for (int i = 18; i < data.length; i++) {
 			byte pixel=data[i];
 			byte pixelValue = (byte) ((pixel & 0xFF) - 128) ;
 			data[i]=pixelValue;
 		}
-		
+
 		for (int i = 0; i < nombreImages; i++) {
 			for (int j = 0; j < hauteurImage; j++) {
 				for (int j2 = 0; j2 < largeurImage; j2++) {
@@ -89,8 +89,17 @@ public class KNN {
 	 * @return the squared euclidean distance between the two images
 	 */
 	public static float squaredEuclideanDistance(byte[][] a, byte[][] b) {
-		// TODO: Implémenter
-		return 0f;
+
+		float distance = 0;
+		int hauteurImage = a.length;
+		int largeurImage = a[0].length;
+		for (int i = 0; i < hauteurImage-1; i++) {
+			for (int j = 0; j < largeurImage-1; j++) {
+				distance+=(a[i][j]-b[i][j])*(a[i][j]-b[i][j]);
+			}
+		}
+		distance*=distance;
+		return distance;
 	}
 
 	/**
@@ -101,8 +110,51 @@ public class KNN {
 	 * @return the inverted similarity between the two images
 	 */
 	public static float invertedSimilarity(byte[][] a, byte[][] b) {
-		// TODO: Implémenter
-		return 0f;
+
+		double si1 = 0;
+		float moyenneA=0;
+		float moyenneB =0;					//défini valeur
+		double dessus =0;
+		double dessousA =0;
+		double dessousB =0;
+		int hauteurImage = a.length;
+		int largeurImage = a[0].length;
+		for (int i = 0; i < hauteurImage-1; i++) {  					//calcul moyenne A
+			for (int j = 0; j < largeurImage-1; j++) {
+				moyenneA+=a[i][j];
+			}
+		}
+		moyenneA*=1/(hauteurImage*largeurImage);
+		for (int i = 0; i < hauteurImage-1; i++) {						//calcul moyenne B
+			for (int j = 0; j < largeurImage-1; j++) {
+				moyenneB+=b[i][j];
+			}
+		}
+		moyenneB*=1/(hauteurImage*largeurImage);
+
+		for (int i = 0; i < hauteurImage-1; i++) {						//calcul le dessus de la fraction
+			for (int j = 0; j < largeurImage-1; j++) {
+				dessus+=(a[i][j] -moyenneA)*(b[i][j]-moyenneB);
+			}
+		}
+		for (int i = 0; i < hauteurImage-1; i++) {						//calcul dessous A fraction
+			for (int j = 0; j < largeurImage-1; j++) {
+				dessousA+=(a[i][j]-moyenneA)*(a[i][j]-moyenneA);
+			}
+		}
+
+		for (int i = 0; i < hauteurImage-1; i++) {						//calcul dessous B fration 
+			for (int j = 0; j < largeurImage-1; j++) {
+				dessousB+=(b[i][j]-moyenneB)*(b[i][j]-moyenneB);
+			}
+		}
+
+
+		double dessous = Math.sqrt(dessousA*dessousB);
+		si1=1-(dessus/dessous);
+
+		float f = (float) si1;
+		return f;
 	}
 
 	/**
@@ -116,85 +168,117 @@ public class KNN {
 	 *         Example: values = quicksortIndices([3, 7, 0, 9]) gives [2, 0, 1, 3]
 	 */
 	public static int[] quicksortIndices(float[] values) {
-		// TODO: Implémenter
-		return null;
-	}
 
-	/**
-	 * @brief Sorts the provided values between two indices while applying the same
-	 *        transformations to the array of indices
-	 * 
-	 * @param values  the values to sort
-	 * @param indices the indices to sort according to the corresponding values
-	 * @param         low, high are the **inclusive** bounds of the portion of array
-	 *                to sort
-	 */
-	public static void quicksortIndices(float[] values, int[] indices, int low, int high) {
-		// TODO: Implémenter
-	}
+		int l =0;   
+		int low=0;
+		int h = values.length-1 ;
+		int high=h;
+		int pivot = l;   
+		int[] indices = new int [values.length];
+		do {
+			if (values[l] < pivot) {
+				l++;
+			}
+			else if (values[h] > pivot) { 
 
-	/**
-	 * @brief Swaps the elements of the given arrays at the provided positions
-	 * 
-	 * @param         i, j the indices of the elements to swap
-	 * @param values  the array floats whose values are to be swapped
-	 * @param indices the array of ints whose values are to be swapped
-	 */
-	public static void swap(int i, int j, float[] values, int[] indices) {
-		// TODO: Implémenter
-	}
+				h--;
 
-	/**
-	 * @brief Returns the index of the largest element in the array
-	 * 
-	 * @param array an array of integers
-	 * 
-	 * @return the index of the largest integer
-	 */
-	public static int indexOfMax(int[] array) {
-		// TODO: Implémenter
-		return 0;
-	}
+			}
+			else {
+				int temp = l;
+				l=h;
+				h=temp;
+				l++;
+				h--;
+			}
+		}while (l <=h) ;
+		if (low < h) { 
+			quicksortIndices(values, indices, low, h);
+		}
+		if (high > l) {
+			quicksortIndices(values, indices, l, high);
+		}
 
-	/**
-	 * The k first elements of the provided array vote for a label
-	 *
-	 * @param sortedIndices the indices sorted by non-decreasing distance
-	 * @param labels        the labels corresponding to the indices
-	 * @param k             the number of labels asked to vote
-	 *
-	 * @return the winner of the election
-	 */
-	public static byte electLabel(int[] sortedIndices, byte[] labels, int k) {
-		// TODO: Implémenter
-		return 0;
-	}
+	
 
-	/**
-	 * Classifies the symbol drawn on the provided image
-	 *
-	 * @param image       the image to classify
-	 * @param trainImages the tensor of training images
-	 * @param trainLabels the list of labels corresponding to the training images
-	 * @param k           the number of voters in the election process
-	 *
-	 * @return the label of the image
-	 */
-	public static byte knnClassify(byte[][] image, byte[][][] trainImages, byte[] trainLabels, int k) {
-		// TODO: Implémenter
-		return 0;
-	}
+	return indices;
+}
 
-	/**
-	 * Computes accuracy between two arrays of predictions
-	 * 
-	 * @param predictedLabels the array of labels predicted by the algorithm
-	 * @param trueLabels      the array of true labels
-	 * 
-	 * @return the accuracy of the predictions. Its value is in [0, 1]
-	 */
-	public static double accuracy(byte[] predictedLabels, byte[] trueLabels) {
-		// TODO: Implémenter
-		return 0d;
-	}
+/**
+ * @brief Sorts the provided values between two indices while applying the same
+ *        transformations to the array of indices
+ * 
+ * @param values  the values to sort
+ * @param indices the indices to sort according to the corresponding values
+ * @param         low, high are the **inclusive** bounds of the portion of array
+ *                to sort
+ */
+public static void quicksortIndices(float[] values, int[] indices, int low, int high) {
+	// TODO: Implémenter
+}
+
+/**
+ * @brief Swaps the elements of the given arrays at the provided positions
+ * 
+ * @param         i, j the indices of the elements to swap
+ * @param values  the array floats whose values are to be swapped
+ * @param indices the array of ints whose values are to be swapped
+ */
+public static void swap(int i, int j, float[] values, int[] indices) {
+	// TODO: Implémenter
+}
+
+/**
+ * @brief Returns the index of the largest element in the array
+ * 
+ * @param array an array of integers
+ * 
+ * @return the index of the largest integer
+ */
+public static int indexOfMax(int[] array) {
+	// TODO: Implémenter
+	return 0;
+}
+
+/**
+ * The k first elements of the provided array vote for a label
+ *
+ * @param sortedIndices the indices sorted by non-decreasing distance
+ * @param labels        the labels corresponding to the indices
+ * @param k             the number of labels asked to vote
+ *
+ * @return the winner of the election
+ */
+public static byte electLabel(int[] sortedIndices, byte[] labels, int k) {
+	// TODO: Implémenter
+	return 0;
+}
+
+/**
+ * Classifies the symbol drawn on the provided image
+ *
+ * @param image       the image to classify
+ * @param trainImages the tensor of training images
+ * @param trainLabels the list of labels corresponding to the training images
+ * @param k           the number of voters in the election process
+ *
+ * @return the label of the image
+ */
+public static byte knnClassify(byte[][] image, byte[][][] trainImages, byte[] trainLabels, int k) {
+	// TODO: Implémenter
+	return 0;
+}
+
+/**
+ * Computes accuracy between two arrays of predictions
+ * 
+ * @param predictedLabels the array of labels predicted by the algorithm
+ * @param trueLabels      the array of true labels
+ * 
+ * @return the accuracy of the predictions. Its value is in [0, 1]
+ */
+public static double accuracy(byte[] predictedLabels, byte[] trueLabels) {
+	// TODO: Implémenter
+	return 0d;
+}
 }
