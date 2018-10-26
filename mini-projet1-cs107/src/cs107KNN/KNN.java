@@ -2,8 +2,8 @@ package cs107KNN;
 
 public class KNN {
 	public static void main(String[] args) {
-		
-		
+
+
 		byte b1 = 0; // 00101000
 		byte b2 = 0; // 00010100
 		byte b3 = 8; // 00001010
@@ -18,7 +18,7 @@ public class KNN {
 				+ Helpers.interpretUnsigned(bits) + "\n\tinterpretée comme byte signé donne "
 				+ Helpers.interpretSigned(bits));
 		System.out.println(Helpers.byteToBinaryString (b1));
-//System.out.println(parseIDXimages(Helpers.readBinaryFile("datasets/10-per-digit_images_train")));
+		//System.out.println(parseIDXimages(Helpers.readBinaryFile("datasets/10-per-digit_images_train")));
 	}
 	/**
 	 * Composes four bytes into an integer using big endian convention.
@@ -45,7 +45,7 @@ public class KNN {
 		int hauteurImage = extractInt(data[10], data[11], data[12], data[13]);
 		int largeurImage = extractInt(data[14], data[15], data[16],data[17]);
 		byte[][][] tensor = new byte[nombreImages][hauteurImage][largeurImage];
-		
+
 		return tensor;
 	}
 
@@ -57,9 +57,17 @@ public class KNN {
 	 * @return the parsed labels
 	 */
 	public static byte[] parseIDXlabels(byte[] data) {
-		// TODO: Implémenter
-	
-		return data;
+		int magicNumberImages = extractInt(data[2],data[3],data[4],data[5]);
+		int nombreLabels = extractInt(data[6], data[7], data[8], data[9]);
+		byte[] tensor= new byte[nombreLabels];
+
+
+		for (int i = 0; i < data.length; i++) {
+			if (i<data.length-8) {
+				tensor[i]= data[i+8];
+			}
+		}
+		return tensor;
 	}
 
 	/**
