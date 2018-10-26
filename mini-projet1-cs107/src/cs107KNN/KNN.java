@@ -11,7 +11,7 @@ public class KNN {
 		int result = extractInt(b1, b2, b3, b4);
 		System.out.println(result);
 
-		String bits = "11111111";
+		String bits = "11111110";
 		System.out.println("La séquence de bits " + bits + "\n\tinterprétée comme byte non signé donne "
 				+ Helpers.interpretUnsigned(bits) + "\n\tinterpretée comme byte signé donne "
 				+ Helpers.interpretSigned(bits));
