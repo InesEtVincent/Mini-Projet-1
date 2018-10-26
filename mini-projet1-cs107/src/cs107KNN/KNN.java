@@ -26,7 +26,24 @@ public class KNN {
 	 */
 	public static int extractInt(byte b31ToB24, byte b23ToB16, byte b15ToB8, byte b7ToB0) {
 		// TODO: Implémenter
-		return 0;
+		//transforme int en byte
+		String b1 = Helpers.byteToBinaryString(b31ToB24)
+					+ Helpers.byteToBinaryString(b23ToB16) +
+					Helpers.byteToBinaryString(b15ToB8) + Helpers.byteToBinaryString(b7ToB0);
+		int a=0;
+		for (int i = 0; i < 32; i++) {
+			if (b1.charAt(i)=='1') {
+				a=a*2+1;
+			}
+			else {
+				a=a*2;
+			}
+			
+		}
+		System.out.println(a);
+		
+		
+		 return a;
 	}
 
 	/**
