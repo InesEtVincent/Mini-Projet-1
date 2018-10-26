@@ -18,6 +18,10 @@ public class KNN {
 				+ Helpers.interpretUnsigned(bits) + "\n\tinterpretée comme byte signé donne "
 				+ Helpers.interpretSigned(bits));
 		System.out.println(Helpers.byteToBinaryString (b1));
+		
+		//test
+		byte labels[] = Helpers.readBinaryFile("datasets/10-per-digit_labels_train");
+		System.out.println(parseIDXlabels(labels)); 
 
 	}
 	/**
@@ -57,7 +61,13 @@ public class KNN {
 	 */
 	public static byte[][][] parseIDXimages(byte[] data) {
 		// TODO: Implémenter
-		return null;
+		byte a = data[0];
+		byte b = data[1];
+		byte c = data[2];
+		byte d = data[3];
+		
+		byte test[][][];
+		return test;
 	}
 
 	/**
@@ -67,9 +77,16 @@ public class KNN {
 	 *
 	 * @return the parsed labels
 	 */
+	byte labels[] = Helpers.readBinaryFile("10-per-digit_labels_train");
 	public static byte[] parseIDXlabels(byte[] data) {
 		// TODO: Implémenter
-		return null;
+		byte a = data[4];
+		byte b = data[5];
+		byte c = data[6];
+		byte d = data[7];
+		byte[] resultat = {a, b, c, d};
+		System.out.println(resultat[0]);
+		return resultat;
 	}
 
 	/**
