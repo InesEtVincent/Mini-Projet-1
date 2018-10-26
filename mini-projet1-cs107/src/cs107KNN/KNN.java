@@ -4,10 +4,10 @@ public class KNN {
 	public static void main(String[] args) {
 		
 		
-		byte b1 = 40; // 00101000
-		byte b2 = 20; // 00010100
-		byte b3 = 10; // 00001010
-		byte b4 = 5; // 00000101
+		byte b1 = 0; // 00101000
+		byte b2 = 0; // 00010100
+		byte b3 = 8; // 00001010
+		byte b4 = 3; // 10000101
 
 		// [00101000 | 00010100 | 00001010 | 00000101] = 672401925
 		int result = extractInt(b1, b2, b3, b4);
@@ -18,10 +18,15 @@ public class KNN {
 				+ Helpers.interpretUnsigned(bits) + "\n\tinterpretée comme byte signé donne "
 				+ Helpers.interpretSigned(bits));
 		System.out.println(Helpers.byteToBinaryString (b1));
+
 		
 		//test
-		byte labels[] = Helpers.readBinaryFile("datasets/10-per-digit_labels_train");
-		System.out.println(parseIDXlabels(labels)); 
+		byte[][][] images = KNN.parseIDXimages(Helpers.readBinaryFile("datasets/10-per-digit_images_train"));
+		byte[] labels = KNN.parseIDXlabels(Helpers.readBinaryFile("datasets/10-per-digit_labels_train"));
+
+
+
+System.out.println(parseIDXimages(Helpers.readBinaryFile("datasets/10-per-digit_images_train")));
 
 	}
 	/**
@@ -33,23 +38,27 @@ public class KNN {
 	 */
 	public static int extractInt(byte b31ToB24, byte b23ToB16, byte b15ToB8, byte b7ToB0) {
 		// TODO: Implémenter
+
 		//faire la somme en bytes
 		//retourner un int
+
 		//transforme int en byte
 		String b1 = Helpers.byteToBinaryString(b31ToB24)
 					+ Helpers.byteToBinaryString(b23ToB16) +
 					Helpers.byteToBinaryString(b15ToB8) + Helpers.byteToBinaryString(b7ToB0);
 		int a=0;
-		for (int i = 0; i < 32; i++) {
+		for (int i = 31; i < 0; i--) {
 			if (b1.charAt(i)=='1') {
 				a=a*2+1;
 			}
 			else {
 				a=a*2;
+
+		 
 			}
 			
-		}	
-		 return a;
+	}
+		return a;
 	}
 
 	/**
@@ -61,13 +70,14 @@ public class KNN {
 	 */
 	public static byte[][][] parseIDXimages(byte[] data) {
 		// TODO: Implémenter
-		byte a = data[0];
-		byte b = data[1];
-		byte c = data[2];
-		byte d = data[3];
+
+		int magicNumberImages = extractInt(data[0],data[1],data[2],data[3]);
+		int nombreImages = extractInt(data[4], data[5], data[6], data[7]);
+		int hauteurImage = extractInt(data[8], data[9], data[10], data[11]);
+		int largeurImage = extractInt(data[12], data[13], data[14],data[15]);
+		byte[][][] tensor = new byte[nombreImages][hauteurImage][largeurImage];
 		
-		byte test[][][];
-		return test;
+		return tensor;
 	}
 
 	/**
@@ -80,13 +90,12 @@ public class KNN {
 	byte labels[] = Helpers.readBinaryFile("10-per-digit_labels_train");
 	public static byte[] parseIDXlabels(byte[] data) {
 		// TODO: Implémenter
-		byte a = data[4];
-		byte b = data[5];
-		byte c = data[6];
-		byte d = data[7];
-		byte[] resultat = {a, b, c, d};
-		System.out.println(resultat[0]);
-		return resultat;
+		int magicNumberImages = extractInt(data[0],data[1],data[2],data[3]);
+		int nombreLabels = extractInt(data[4], data[5], data[6], data[7]);
+		
+		byte[] test = new byte[nombreLabels];
+
+		return test;
 	}
 
 	/**
