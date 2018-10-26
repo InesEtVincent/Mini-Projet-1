@@ -29,17 +29,8 @@ public class KNN {
 	 */
 	public static int extractInt(byte b31ToB24, byte b23ToB16, byte b15ToB8, byte b7ToB0) {
 		// TODO: Implémenter
-<<<<<<< HEAD
 		//faire la somme en bytes
 		//retourner un int
-		String bt = Helpers.byteToBinaryString(b31ToB24) + Helpers.byteToBinaryString(b23ToB16) + Helpers.byteToBinaryString(b15ToB8) + Helpers.byteToBinaryString(b7ToB0);
-		byte[] i = bt.getBytes();
-		System.out.println(i[0]);
-		
-		
-		return 0;
-
-=======
 		//transforme int en byte
 		String b1 = Helpers.byteToBinaryString(b31ToB24)
 					+ Helpers.byteToBinaryString(b23ToB16) +
@@ -53,12 +44,8 @@ public class KNN {
 				a=a*2;
 			}
 			
-		}
-		System.out.println(a);
-		
-		
+		}	
 		 return a;
->>>>>>> 19771dba1a438a257d44fe035df9b0e2bd0c4676
 	}
 
 	/**
