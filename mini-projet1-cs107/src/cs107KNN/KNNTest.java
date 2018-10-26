@@ -8,7 +8,7 @@ public class KNNTest {
 		System.out.println(Helpers.readBinaryFile("10-per-digit_labels_train"));
 		// TODO: Adapt path to data files in parsing test
 		// Decommentez au fur et à mesure que vous implémentez
-		//extractIntTest();
+		extractIntTest();
 		//parsingTest();
 		//euclideanDistanceTest();
 		//invertedSimilarityTest();
