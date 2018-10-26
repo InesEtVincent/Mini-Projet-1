@@ -5,7 +5,6 @@ import java.util.Arrays;
 public class KNNTest {
 	public static void main(String[] args) {
 		
-		System.out.println(Helpers.readBinaryFile("10-per-digit_labels_train"));
 		// TODO: Adapt path to data files in parsing test
 		// Decommentez au fur et à mesure que vous implémentez
 		extractIntTest();
@@ -33,8 +32,8 @@ public class KNNTest {
 		int obtained = KNN.extractInt(b1, b2, b3, b4);
 
 		System.out.println("=== Test extractInt ===");
-		System.out.println("Entier attendu:\t " + expected);
-		System.out.println("extractInt produit:\t " + "00101000011110000100011010001011");
+		System.out.println("Entier attendu:\t " + Integer.parseInt(expected, 2));
+		System.out.println("extractInt produit:\t " + obtained);
 	}
 
 	public static void parsingTest() {

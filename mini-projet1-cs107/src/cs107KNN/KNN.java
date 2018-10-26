@@ -4,10 +4,10 @@ public class KNN {
 	public static void main(String[] args) {
 		
 		
-		byte b1 = 40; // 00101000
-		byte b2 = 20; // 00010100
-		byte b3 = 10; // 00001010
-		byte b4 = -7; // 10000101
+		byte b1 = 0; // 00101000
+		byte b2 = 0; // 00010100
+		byte b3 = 8; // 00001010
+		byte b4 = 3; // 10000101
 
 		// [00101000 | 00010100 | 00001010 | 00000101] = 672401925
 		int result = extractInt(b1, b2, b3, b4);
@@ -18,7 +18,7 @@ public class KNN {
 				+ Helpers.interpretUnsigned(bits) + "\n\tinterpretée comme byte signé donne "
 				+ Helpers.interpretSigned(bits));
 		System.out.println(Helpers.byteToBinaryString (b1));
-System.out.println(parseIDXimages(Helpers.readBinaryFile("datasets/10-per-digit_images_train")));
+//System.out.println(parseIDXimages(Helpers.readBinaryFile("datasets/10-per-digit_images_train")));
 	}
 	/**
 	 * Composes four bytes into an integer using big endian convention.
@@ -28,21 +28,8 @@ System.out.println(parseIDXimages(Helpers.readBinaryFile("datasets/10-per-digit_
 	 * @return the integer having form [ b31ToB24 | b23ToB16 | b15ToB8 | b7ToB0 ]
 	 */
 	public static int extractInt(byte b31ToB24, byte b23ToB16, byte b15ToB8, byte b7ToB0) {
-		// TODO: Implémenter
-		//transforme int en byte
-		String b1 = Helpers.byteToBinaryString(b31ToB24)
-					+ Helpers.byteToBinaryString(b23ToB16) +
-					Helpers.byteToBinaryString(b15ToB8) + Helpers.byteToBinaryString(b7ToB0);
-		int a=0;
-		for (int i = 0; i < 32; i++) {
-			if (b1.charAt(i)=='1') {
-				a=a*2+1;
-			}
-			else {
-				a=a*2;
-			}	
-		}
-		 return a;
+		return ((b31ToB24)&0xFF) << 24 | (b23ToB16&0xFF) << 16 | (b15ToB8&0xFF) << 8 | (b7ToB0&0xFF);
+
 	}
 
 	/**
@@ -53,11 +40,10 @@ System.out.println(parseIDXimages(Helpers.readBinaryFile("datasets/10-per-digit_
 	 * @return A tensor of images
 	 */
 	public static byte[][][] parseIDXimages(byte[] data) {
-		// TODO: Implémenter
-		int magicNumberImages = extractInt(data[0],data[1],data[2],data[3]);
-		int nombreImages = extractInt(data[4], data[5], data[6], data[7]);
-		int hauteurImage = extractInt(data[8], data[9], data[10], data[11]);
-		int largeurImage = extractInt(data[12], data[13], data[14],data[15]);
+		int magicNumberImages = extractInt(data[2],data[3],data[4],data[5]);
+		int nombreImages = extractInt(data[6], data[7], data[8], data[9]);
+		int hauteurImage = extractInt(data[10], data[11], data[12], data[13]);
+		int largeurImage = extractInt(data[14], data[15], data[16],data[17]);
 		byte[][][] tensor = new byte[nombreImages][hauteurImage][largeurImage];
 		
 		return tensor;
