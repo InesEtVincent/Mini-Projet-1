@@ -174,7 +174,6 @@ public class KNN {
 			indices[i]=i;
 		}
 		quicksortIndices(values,indices, 0,values.length-1);
-		
 		return indices;
 	}
 	/**
@@ -200,7 +199,7 @@ public class KNN {
 			else {
 				swap(l,h, values,indices);
 				l++;
-				h--;
+				h--;												//}Algorithm donné
 			}
 		}while (l <= h) ;
 		if (low < h) { 
@@ -223,7 +222,7 @@ public class KNN {
 		float temp=values[i];
 		values[i]=values[j];
 		values[j]=temp;
-		int temp2=indices[i];
+		int temp2=indices[i];			//swap classic mais à double pour changer valeur et indice
 		indices[i]=indices[j];
 		indices[j]=temp2;
 	}
@@ -236,8 +235,16 @@ public class KNN {
 	 * @return the index of the largest integer
 	 */
 	public static int indexOfMax(int[] array) {
-		// TODO: Implémenter
-		return 0;
+		
+		int maxdonnees=0;
+		int maxindices=0;
+		for (int i = 0; i < array.length; i++) { 
+			if (maxdonnees<array[i]) {
+				maxdonnees=array[i];
+				maxindices=i;
+			}
+		}			//test et garde l'indices pour la données la plus fréquente
+		return maxindices;
 	}
 
 	/**
