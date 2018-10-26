@@ -4,6 +4,8 @@ import java.util.Arrays;
 
 public class KNNTest {
 	public static void main(String[] args) {
+		
+		System.out.println(Helpers.readBinaryFile("10-per-digit_labels_train"));
 		// TODO: Adapt path to data files in parsing test
 		// Decommentez au fur et à mesure que vous implémentez
 		//extractIntTest();

@@ -2,6 +2,8 @@ package cs107KNN;
 
 public class KNN {
 	public static void main(String[] args) {
+		
+		
 		byte b1 = 40; // 00101000
 		byte b2 = 20; // 00010100
 		byte b3 = 10; // 00001010
@@ -15,8 +17,9 @@ public class KNN {
 		System.out.println("La séquence de bits " + bits + "\n\tinterprétée comme byte non signé donne "
 				+ Helpers.interpretUnsigned(bits) + "\n\tinterpretée comme byte signé donne "
 				+ Helpers.interpretSigned(bits));
-	}
+		System.out.println(Helpers.byteToBinaryString (b1));
 
+	}
 	/**
 	 * Composes four bytes into an integer using big endian convention.
 	 *
@@ -26,7 +29,15 @@ public class KNN {
 	 */
 	public static int extractInt(byte b31ToB24, byte b23ToB16, byte b15ToB8, byte b7ToB0) {
 		// TODO: Implémenter
+		//faire la somme en bytes
+		//retourner un int
+		String bt = Helpers.byteToBinaryString(b31ToB24) + Helpers.byteToBinaryString(b23ToB16) + Helpers.byteToBinaryString(b15ToB8) + Helpers.byteToBinaryString(b7ToB0);
+		byte[] i = bt.getBytes();
+		System.out.println(i[0]);
+		
+		
 		return 0;
+
 	}
 
 	/**
