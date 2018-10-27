@@ -40,14 +40,12 @@ public class KNN {
 	 * @return A tensor of images
 	 */
 	public static byte[][][] parseIDXimages(byte[] data) {
-
-		int magicNumberImages = extractInt(data[2],data[3],data[4],data[5]);
-		int nombreImages = extractInt(data[6], data[7], data[8], data[9]);
-		int hauteurImage = extractInt(data[10], data[11], data[12], data[13]);
-		int largeurImage = extractInt(data[14], data[15], data[16],data[17]);
+		int nombreImages = extractInt(data[4], data[5], data[6], data[7]);
+		int hauteurImage = extractInt(data[8], data[9], data[10], data[11]);
+		int largeurImage = extractInt(data[12], data[13], data[14],data[15]);
 		byte[][][] tensor = new byte[nombreImages][hauteurImage][largeurImage];
 
-		for (int i = 18; i < data.length; i++) {
+		for (int i = 16; i < data.length; i++) {
 			byte pixel=data[i];
 			byte pixelValue = (byte) ((pixel & 0xFF) - 128) ;
 			data[i]=pixelValue;
@@ -56,7 +54,7 @@ public class KNN {
 		for (int i = 0; i < nombreImages; i++) {
 			for (int j = 0; j < hauteurImage; j++) {
 				for (int j2 = 0; j2 < largeurImage; j2++) {
-					tensor[i][j][j2]=data[18+j2+i*largeurImage*hauteurImage+j*largeurImage];
+					tensor[i][j][j2]=data[16+j2+i*largeurImage*hauteurImage+j*largeurImage];
 				}
 			}
 		}
@@ -72,8 +70,7 @@ public class KNN {
 	 */
 	byte labels[] = Helpers.readBinaryFile("10-per-digit_labels_train");
 	public static byte[] parseIDXlabels(byte[] data) {
-		int magicNumberImages = extractInt(data[2],data[3],data[4],data[5]);
-		int nombreLabels = extractInt(data[6], data[7], data[8], data[9]);
+		int nombreLabels = extractInt(data[4], data[5], data[6], data[7]);
 		byte[] tensor= new byte[nombreLabels];
 		for (int i = 0; i < data.length; i++) {
 			if (i<data.length-8) {
