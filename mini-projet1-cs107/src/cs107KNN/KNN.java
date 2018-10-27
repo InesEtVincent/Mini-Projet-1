@@ -294,6 +294,15 @@ public class KNN {
 	 */
 	public static double accuracy(byte[] predictedLabels, byte[] trueLabels) {
 		// TODO: Implémenter
-		return 0d;
+		double a = 0;
+		double n = trueLabels.length;
+		for(int i = 0; i < n; i++) {
+			if(predictedLabels[i] == trueLabels[i]) {
+				a += (1/n);
+			} else {
+				a += 0;
+			}
+		}
+		return a;
 	}
 }
