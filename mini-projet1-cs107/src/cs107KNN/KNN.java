@@ -18,8 +18,6 @@ public class KNN {
 				+ Helpers.interpretUnsigned(bits) + "\n\tinterpret√©e comme byte sign√© donne "
 				+ Helpers.interpretSigned(bits));
 		System.out.println(Helpers.byteToBinaryString (b1));
-
-		//System.out.println(parseIDXimages(Helpers.readBinaryFile("datasets/10-per-digit_images_train")));
 	}
 	/**
 	 * Composes four bytes into an integer using big endian convention.
@@ -253,8 +251,7 @@ public class KNN {
 			}
 		}while(n < array.length);
 		return i;
-	}
-				//test et garde l'indices pour la donn√©es la plus fr√©quente
+	} //compare les valeurs du tableau et retourne l'indice de la valeur du tableau la plus grande.
 
 	/**
 	 * The k first elements of the provided array vote for a label
@@ -266,7 +263,14 @@ public class KNN {
 	 * @return the winner of the election
 	 */
 	public static byte electLabel(int[] sortedIndices, byte[] labels, int k) {
-		// TODO: Impl√©menter
+		/**
+		 * les k images plus proches votent pour leur Ètiquette
+		 * l'Ètiquette avec + de votes est choisie
+		 * faire dÈcompte de votes de k puis rechercher Ètiquette populaire
+		 * 
+		 */
+		int[] essai = new int[9]; //tableau pour stocker les votes
+		indexOfMax(essai); //cherche la plus grande valeur (+ de votes)
 		return 0;
 	}
 
@@ -282,6 +286,7 @@ public class KNN {
 	 */
 	public static byte knnClassify(byte[][] image, byte[][][] trainImages, byte[] trainLabels, int k) {
 		// TODO: Impl√©menter
+		
 		return 0;
 	}
 
