@@ -242,17 +242,19 @@ public class KNN {
 	 * @return the index of the largest integer
 	 */
 	public static int indexOfMax(int[] array) {
-		
-		int maxdonnees=0;
-		int maxindices=0;
-		for (int i = 0; i < array.length; i++) { 
-			if (maxdonnees<array[i]) {
-				maxdonnees=array[i];
-				maxindices=i;
+		int i = 0;
+		int n = 1;
+		do {
+			if (array[i] < array[n]) {
+				i++;
+				n++;
+			} else {
+				n+= 1;
 			}
-		}			//test et garde l'indices pour la données la plus fréquente
-		return maxindices;
+		}while(n < array.length);
+		return i;
 	}
+				//test et garde l'indices pour la données la plus fréquente
 
 	/**
 	 * The k first elements of the provided array vote for a label
