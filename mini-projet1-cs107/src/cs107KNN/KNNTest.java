@@ -9,10 +9,10 @@ public class KNNTest {
 		// Decommentez au fur et à mesure que vous implémentez
 		extractIntTest();
 		parsingTest();
-		squaredEuclideanDistanceTest();
-		invertedSimilarityTest();
-		quicksortTest();
-		indexOfMaxTest();
+		//squaredEuclideanDistanceTest();
+		//invertedSimilarityTest();
+		//quicksortTest();
+		//indexOfMaxTest();
 		electLabelTest();
 		//knnClassifyTest();
 		//accuracyTest();

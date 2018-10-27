@@ -244,7 +244,7 @@ public class KNN {
 		int n = 1;
 		do {
 			if (array[i] < array[n]) {
-				i++;
+				i = n;
 				n++;
 			} else {
 				n+= 1;
@@ -263,15 +263,12 @@ public class KNN {
 	 * @return the winner of the election
 	 */
 	public static byte electLabel(int[] sortedIndices, byte[] labels, int k) {
-		/**
-		 * les k images plus proches votent pour leur étiquette
-		 * l'étiquette avec + de votes est choisie
-		 * faire décompte de votes de k puis rechercher étiquette populaire
-		 * 
-		 */
 		int[] essai = new int[9]; //tableau pour stocker les votes
-		indexOfMax(essai); //cherche la plus grande valeur (+ de votes)
-		return 0;
+		for(int i = 0; i < k; i++) {
+			essai[labels[sortedIndices[i]]] = essai[labels[sortedIndices[i]]] + 1;
+		}
+		int resultat = indexOfMax(essai); //cherche la plus grande valeur (+ de votes)
+		return (byte) resultat;
 	}
 
 	/**
