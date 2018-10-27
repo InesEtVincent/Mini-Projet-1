@@ -257,7 +257,8 @@ public class KNN {
 	 * @return the winner of the election
 	 */
 	public static byte electLabel(int[] sortedIndices, byte[] labels, int k) {
-		// TODO: Implémenter
+		int[] tab= new int [10];
+		
 		return 0;
 	}
 
