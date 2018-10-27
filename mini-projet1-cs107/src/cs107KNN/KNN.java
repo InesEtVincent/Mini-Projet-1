@@ -263,10 +263,6 @@ public class KNN {
 	 * @return the winner of the election
 	 */
 	public static byte electLabel(int[] sortedIndices, byte[] labels, int k) {
-<<<<<<< HEAD
-		int[] tab= new int [10];
-		
-=======
 		/**
 		 * les k images plus proches votent pour leur étiquette
 		 * l'étiquette avec + de votes est choisie
@@ -275,7 +271,6 @@ public class KNN {
 		 */
 		int[] essai = new int[9]; //tableau pour stocker les votes
 		indexOfMax(essai); //cherche la plus grande valeur (+ de votes)
->>>>>>> 08ffc25559eab3e2b4f5d3676da67e85341e0a31
 		return 0;
 	}
 
