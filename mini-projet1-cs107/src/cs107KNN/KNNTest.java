@@ -45,7 +45,7 @@ public class KNNTest {
 		System.out.println("Height: " + images[0].length);
 		System.out.println("Width: " + images[0][0].length);
 
-		//Helpers.show("Test parsing", images, labels, 10, 10);
+		Helpers.show("Test parsing", images, labels, 10, 10);
 	}
 
 

@@ -18,8 +18,6 @@ public class KNN {
 				+ Helpers.interpretUnsigned(bits) + "\n\tinterpret√©e comme byte sign√© donne "
 				+ Helpers.interpretSigned(bits));
 		System.out.println(Helpers.byteToBinaryString (b1));
-
-		//System.out.println(parseIDXimages(Helpers.readBinaryFile("datasets/10-per-digit_images_train")));
 	}
 	/**
 	 * Composes four bytes into an integer using big endian convention.
@@ -29,6 +27,7 @@ public class KNN {
 	 * @return the integer having form [ b31ToB24 | b23ToB16 | b15ToB8 | b7ToB0 ]
 	 */
 	public static int extractInt(byte b31ToB24, byte b23ToB16, byte b15ToB8, byte b7ToB0) {
+
 		return ((b31ToB24)&0xFF) << 24 | (b23ToB16&0xFF) << 16 | (b15ToB8&0xFF) << 8 | (b7ToB0&0xFF);
 
 	}
@@ -41,6 +40,7 @@ public class KNN {
 	 * @return A tensor of images
 	 */
 	public static byte[][][] parseIDXimages(byte[] data) {
+
 		int magicNumberImages = extractInt(data[2],data[3],data[4],data[5]);
 		int nombreImages = extractInt(data[6], data[7], data[8], data[9]);
 		int hauteurImage = extractInt(data[10], data[11], data[12], data[13]);
@@ -70,6 +70,7 @@ public class KNN {
 	 *
 	 * @return the parsed labels
 	 */
+	byte labels[] = Helpers.readBinaryFile("10-per-digit_labels_train");
 	public static byte[] parseIDXlabels(byte[] data) {
 		int magicNumberImages = extractInt(data[2],data[3],data[4],data[5]);
 		int nombreLabels = extractInt(data[6], data[7], data[8], data[9]);
@@ -169,6 +170,7 @@ public class KNN {
 	 *         Example: values = quicksortIndices([3, 7, 0, 9]) gives [2, 0, 1, 3]
 	 */	
 	public static int[] quicksortIndices(float[] values) {
+
 		int[] indices = new int [values.length];   					//cr√©er tableau indices
 		for (int i = 0; i < indices.length; i++) {
 			indices[i]=i;
@@ -205,11 +207,14 @@ public class KNN {
 		if (low < h) { 
 			quicksortIndices(values, indices, low, h);
 		}
-		if (high > l) {
+		if (values[high] > values[l]) {
 			quicksortIndices(values, indices, l, high);
 		}
-	
-	}
+
+}
+
+
+/**
 
 	/**
 	 * @brief Swaps the elements of the given arrays at the provided positions
@@ -235,17 +240,18 @@ public class KNN {
 	 * @return the index of the largest integer
 	 */
 	public static int indexOfMax(int[] array) {
-		
-		int maxdonnees=0;
-		int maxindices=0;
-		for (int i = 0; i < array.length; i++) { 
-			if (maxdonnees<array[i]) {
-				maxdonnees=array[i];
-				maxindices=i;
+		int i = 0;
+		int n = 1;
+		do {
+			if (array[i] < array[n]) {
+				i++;
+				n++;
+			} else {
+				n+= 1;
 			}
-		}			//test et garde l'indices pour la donn√©es la plus fr√©quente
-		return maxindices;
-	}
+		}while(n < array.length);
+		return i;
+	} //compare les valeurs du tableau et retourne l'indice de la valeur du tableau la plus grande.
 
 	/**
 	 * The k first elements of the provided array vote for a label
@@ -257,8 +263,19 @@ public class KNN {
 	 * @return the winner of the election
 	 */
 	public static byte electLabel(int[] sortedIndices, byte[] labels, int k) {
+<<<<<<< HEAD
 		int[] tab= new int [10];
 		
+=======
+		/**
+		 * les k images plus proches votent pour leur Ètiquette
+		 * l'Ètiquette avec + de votes est choisie
+		 * faire dÈcompte de votes de k puis rechercher Ètiquette populaire
+		 * 
+		 */
+		int[] essai = new int[9]; //tableau pour stocker les votes
+		indexOfMax(essai); //cherche la plus grande valeur (+ de votes)
+>>>>>>> 08ffc25559eab3e2b4f5d3676da67e85341e0a31
 		return 0;
 	}
 
@@ -274,6 +291,7 @@ public class KNN {
 	 */
 	public static byte knnClassify(byte[][] image, byte[][][] trainImages, byte[] trainLabels, int k) {
 		// TODO: Impl√©menter
+		
 		return 0;
 	}
 
