@@ -3,7 +3,7 @@ package cs107KNN;
 public class KNN {
 	public static void main(String[] args) {
 
-
+/*
 		byte b1 = 0; // 00101000
 		byte b2 = 0; // 00010100
 		byte b3 = 8; // 00001010
@@ -17,7 +17,18 @@ public class KNN {
 		System.out.println("La séquence de bits " + bits + "\n\tinterprétée comme byte non signé donne "
 				+ Helpers.interpretUnsigned(bits) + "\n\tinterpretée comme byte signé donne "
 				+ Helpers.interpretSigned(bits));
-		System.out.println(Helpers.byteToBinaryString (b1));
+		System.out.println(Helpers.byteToBinaryString (b1));*/
+		int TESTS = 700 ;
+		int K = 5 ;
+		byte[][][] trainImages = parseIDXimages(Helpers.readBinaryFile("datasets/10-per-digit_images_train")) ;
+		byte[] trainLabels = parseIDXlabels(Helpers.readBinaryFile("datasets/10-per-digit_labels_train")) ;
+		byte[][][] testImages = parseIDXimages(Helpers.readBinaryFile("datasets/10k_images_test")) ;
+		byte[] testLabels = parseIDXlabels(Helpers.readBinaryFile("datasets/10k_labels_test")) ;
+		byte[] predictions = new byte[TESTS] ;
+		for (int i = 0 ; i < TESTS ; i++) {
+			predictions[i] = knnClassify(testImages[i], trainImages , trainLabels , K) ;
+			}
+		Helpers.show("Test", testImages , predictions , testLabels , 20, 35) ;
 	}
 	/**
 	 * Composes four bytes into an integer using big endian convention.
@@ -237,17 +248,13 @@ public class KNN {
 	 * @return the index of the largest integer
 	 */
 	public static int indexOfMax(int[] array) {
-		int i = 0;
-		int n = 1;
-		do {
-			if (array[i] < array[n]) {
-				i = n;
-				n++;
-			} else {
-				n+= 1;
+		int max = array[0];
+		for(int i = 0; i < array.length; i++) {
+			if(array[i] > max) {
+				max = array[i];
 			}
-		}while(n < array.length);
-		return i;
+		}	
+		return max;
 	} //compare les valeurs du tableau et retourne l'indice de la valeur du tableau la plus grande.
 
 	/**
@@ -261,8 +268,12 @@ public class KNN {
 	 */
 	public static byte electLabel(int[] sortedIndices, byte[] labels, int k) {
 		int[] essai = new int[9]; //tableau pour stocker les votes
+		int[] tab = new int[labels.length];
+		for(int i = 0; i < labels.length; i++) {
+			tab[sortedIndices[i]] = labels[i];
+		}
 		for(int i = 0; i < k; i++) {
-			essai[labels[sortedIndices[i]]] = essai[labels[sortedIndices[i]]] + 1;
+			essai[tab[i]] += 1;
 		}
 		int resultat = indexOfMax(essai); //cherche la plus grande valeur (+ de votes)
 		return (byte) resultat;
@@ -280,7 +291,14 @@ public class KNN {
 	 */
 	public static byte knnClassify(byte[][] image, byte[][][] trainImages, byte[] trainLabels, int k) {
 		// TODO: Implémenter
-		return 0;
+		float distances[] = new float[trainImages.length];
+		for(int i = 0; i < trainImages.length; i++) {
+			distances[i] = squaredEuclideanDistance(image, trainImages[i]);
+		}
+		int Indices[] = quicksortIndices(distances);
+		byte resultat = electLabel(Indices, trainLabels, k);
+		
+		return resultat;
 
 	}
 
