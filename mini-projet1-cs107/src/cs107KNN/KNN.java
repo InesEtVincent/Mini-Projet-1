@@ -248,14 +248,19 @@ public class KNN {
 	 * @return the index of the largest integer
 	 */
 	public static int indexOfMax(int[] array) {
-		int max = array[0];
-		for(int i = 0; i < array.length; i++) {
-			if(array[i] > max) {
-				max = array[i];
+		int i = 0;
+		int n = 1;
+		do {
+			if(array[i] < array[n]) {
+				i = n;
+				n++;
+			} else {
+				n+= 1;
 			}
-		}	
-		return max;
-	} //compare les valeurs du tableau et retourne l'indice de la valeur du tableau la plus grande.
+		
+		}while (n < array.length);
+		return i;
+	}//compare les valeurs du tableau et retourne l'indice de la valeur du tableau la plus grande.
 
 	/**
 	 * The k first elements of the provided array vote for a label
@@ -268,12 +273,8 @@ public class KNN {
 	 */
 	public static byte electLabel(int[] sortedIndices, byte[] labels, int k) {
 		int[] essai = new int[9]; //tableau pour stocker les votes
-		int[] tab = new int[labels.length];
-		for(int i = 0; i < labels.length; i++) {
-			tab[sortedIndices[i]] = labels[i];
-		}
 		for(int i = 0; i < k; i++) {
-			essai[tab[i]] += 1;
+			essai[labels[sortedIndices[i]]] = essai[labels[sortedIndices[i]]] + 1;
 		}
 		int resultat = indexOfMax(essai); //cherche la plus grande valeur (+ de votes)
 		return (byte) resultat;
@@ -293,7 +294,7 @@ public class KNN {
 		// TODO: Implémenter
 		float distances[] = new float[trainImages.length];
 		for(int i = 0; i < trainImages.length; i++) {
-			distances[i] = squaredEuclideanDistance(image, trainImages[i]);
+			distances[i] = invertedSimilarity(image, trainImages[i]);
 		}
 		int Indices[] = quicksortIndices(distances);
 		byte resultat = electLabel(Indices, trainLabels, k);
@@ -317,9 +318,8 @@ public class KNN {
 		for(int i = 0; i < n; i++) {
 			if(predictedLabels[i] == trueLabels[i]) {
 				a += (1/n);
-			} else {
-				a += 0;
 			}
+				
 		}
 		return a;
 	}
