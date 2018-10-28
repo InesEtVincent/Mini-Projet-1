@@ -280,8 +280,8 @@ public class KNN {
 	 */
 	public static byte knnClassify(byte[][] image, byte[][][] trainImages, byte[] trainLabels, int k) {
 		// TODO: Implémenter
-		
 		return 0;
+
 	}
 
 	/**
