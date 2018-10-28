@@ -19,9 +19,9 @@ public class KNN {
 				+ Helpers.interpretSigned(bits));
 		System.out.println(Helpers.byteToBinaryString (b1));*/
 		int TESTS = 700 ;
-		int K = 5 ;
-		byte[][][] trainImages = parseIDXimages(Helpers.readBinaryFile("datasets/10-per-digit_images_train")) ;
-		byte[] trainLabels = parseIDXlabels(Helpers.readBinaryFile("datasets/10-per-digit_labels_train")) ;
+		int K = 1 ;
+		byte[][][] trainImages = parseIDXimages(Helpers.readBinaryFile("datasets/100-per-digit_images_train")) ;
+		byte[] trainLabels = parseIDXlabels(Helpers.readBinaryFile("datasets/100-per-digit_labels_train")) ;
 		byte[][][] testImages = parseIDXimages(Helpers.readBinaryFile("datasets/10k_images_test")) ;
 		byte[] testLabels = parseIDXlabels(Helpers.readBinaryFile("datasets/10k_labels_test")) ;
 		byte[] predictions = new byte[TESTS] ;
@@ -272,7 +272,7 @@ public class KNN {
 	 * @return the winner of the election
 	 */
 	public static byte electLabel(int[] sortedIndices, byte[] labels, int k) {
-		int[] essai = new int[9]; //tableau pour stocker les votes
+		int[] essai = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; //tableau pour stocker les votes
 		for(int i = 0; i < k; i++) {
 			essai[labels[sortedIndices[i]]] = essai[labels[sortedIndices[i]]] + 1;
 		}

@@ -14,7 +14,7 @@ public class KNNTest {
 		//quicksortTest();
 		//indexOfMaxTest();
 		//electLabelTest();
-		knnClassifyTest();
+		//knnClassifyTest();
 		//accuracyTest();
 	}
 
