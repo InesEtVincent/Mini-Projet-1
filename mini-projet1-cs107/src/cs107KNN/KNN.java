@@ -272,7 +272,7 @@ public class KNN {
 	 * @return the winner of the election
 	 */
 	public static byte electLabel(int[] sortedIndices, byte[] labels, int k) {
-		int[] essai = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; //tableau pour stocker les votes
+		int[] essai = new int[10]; //tableau pour stocker les votes
 		for(int i = 0; i < k; i++) {
 			essai[labels[sortedIndices[i]]] = essai[labels[sortedIndices[i]]] + 1;
 		}
