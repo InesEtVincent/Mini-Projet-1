@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class KNN {
 	public static void main(String[] args) {
 
-/*
+		/*
 		byte b1 = 0; // 00101000
 		byte b2 = 0; // 00010100
 		byte b3 = 8; // 00001010
@@ -20,7 +20,7 @@ public class KNN {
 				+ Helpers.interpretUnsigned(bits) + "\n\tinterpretée comme byte signé donne "
 				+ Helpers.interpretSigned(bits));
 		System.out.println(Helpers.byteToBinaryString (b1));*/
-		int TESTS = 100 ;
+		int TESTS = 500 ;
 		int K = 1 ;
 		byte[][][] trainImages = parseIDXimages(Helpers.readBinaryFile("datasets/5000-per-digit_images_train")) ;
 		byte[] trainLabels = parseIDXlabels(Helpers.readBinaryFile("datasets/5000-per-digit_labels_train")) ;
@@ -28,17 +28,34 @@ public class KNN {
 		byte[] testLabels = parseIDXlabels(Helpers.readBinaryFile("datasets/10k_labels_test")) ;
 		byte[] predictions = new byte[TESTS] ;
 		long start = System.currentTimeMillis () ; 	//calcul du temps 
+		int[] rate = new int [TESTS];
+		int d=0;
 		for (int i = 0 ; i < TESTS ; i++) {
 			predictions[i] = knnClassify(testImages[i], trainImages , trainLabels , K) ;
+			System.out.println("Test n°" + i);
+			if (predictions[i]==testLabels[i]) {
+				System.out.println(" réussi");
 			}
+			else {
+				System.out.println(" raté");
+				rate[d]=i;
+			}
+			d=d+1;
+		}
 		long end = System.currentTimeMillis () ;
 		double time = (end - start) / 1000d ;
+		for (int i = 0; i < rate.length; i++) {
+			if (rate[i]!=0) {
+			System.out.println("Le test n°" + rate[i]+ " a echoué. Nous attendions un "+ 
+			testLabels[i] +" alors que l'ordinateur a prédit un " + predictions[i] + ".");
+			}
+		}
 		System.out.println("Accuracy = " + accuracy(predictions , Arrays.copyOfRange(testLabels , 0, TESTS))*100 + " %") ;
 		System.out.println("Time = " + time + " seconds") ;
 		System.out.println("Time per test image = " + (time / TESTS)) ;
-		
-		Helpers.show("Test", testImages , predictions , testLabels , 10, 10) ;
-		
+
+		Helpers.show("Test", testImages , predictions , testLabels , (int)(Math.sqrt(TESTS)), (int)(Math.sqrt(TESTS))) ;
+
 	}
 	/**
 	 * Composes four bytes into an integer using big endian convention.
@@ -229,10 +246,10 @@ public class KNN {
 			quicksortIndices(values, indices, l, high);
 		}
 
-}
+	}
 
 
-/**
+	/**
 
 	/**
 	 * @brief Swaps the elements of the given arrays at the provided positions
@@ -267,7 +284,7 @@ public class KNN {
 			} else {
 				n+= 1;
 			}
-		
+
 		}while (n < array.length);
 		return i;
 	}//compare les valeurs du tableau et retourne l'indice de la valeur du tableau la plus grande.
@@ -308,7 +325,7 @@ public class KNN {
 		}
 		int Indices[] = quicksortIndices(distances);
 		byte resultat = electLabel(Indices, trainLabels, k);
-		
+
 		return resultat;
 
 	}
@@ -329,7 +346,7 @@ public class KNN {
 			if(predictedLabels[i] == trueLabels[i]) {
 				a += (1/n);
 			}
-				
+
 		}
 		return a;
 	}
