@@ -20,7 +20,7 @@ public class KNN {
 				+ Helpers.interpretUnsigned(bits) + "\n\tinterpretée comme byte signé donne "
 				+ Helpers.interpretSigned(bits));
 		System.out.println(Helpers.byteToBinaryString (b1));*/
-		int TESTS = 500 ;
+		int TESTS = 20 ;
 		int K = 1 ;
 		byte[][][] trainImages = parseIDXimages(Helpers.readBinaryFile("datasets/5000-per-digit_images_train")) ;
 		byte[] trainLabels = parseIDXlabels(Helpers.readBinaryFile("datasets/5000-per-digit_labels_train")) ;
@@ -44,11 +44,16 @@ public class KNN {
 		}
 		long end = System.currentTimeMillis () ;
 		double time = (end - start) / 1000d ;
+		int e=0;
 		for (int i = 0; i < rate.length; i++) {
 			if (rate[i]!=0) {
 			System.out.println("Le test n°" + rate[i]+ " a echoué. Nous attendions un "+ 
 			testLabels[i] +" alors que l'ordinateur a prédit un " + predictions[i] + ".");
+			e+=1;
 			}
+		}
+		if(e==0) {
+			System.out.println("---Aucun test n'a échoué !---");
 		}
 		System.out.println("Accuracy = " + accuracy(predictions , Arrays.copyOfRange(testLabels , 0, TESTS))*100 + " %") ;
 		System.out.println("Time = " + time + " seconds") ;
