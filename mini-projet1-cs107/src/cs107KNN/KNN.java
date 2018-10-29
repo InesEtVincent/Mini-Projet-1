@@ -33,7 +33,7 @@ public class KNN {
 			}
 		long end = System.currentTimeMillis () ;
 		double time = (end - start) / 1000d ;
-		System.out.println("Accuracy = " + accuracy(predictions , Arrays.copyOfRange(testLabels , 0, TESTS)) + " %") ;
+		System.out.println("Accuracy = " + accuracy(predictions , Arrays.copyOfRange(testLabels , 0, TESTS))*100 + " %") ;
 		System.out.println("Time = " + time + " seconds") ;
 		System.out.println("Time per test image = " + (time / TESTS)) ;
 		
