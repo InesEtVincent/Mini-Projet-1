@@ -1,5 +1,7 @@
 package cs107KNN;
 
+import java.util.Arrays;
+
 public class KNN {
 	public static void main(String[] args) {
 
@@ -18,17 +20,25 @@ public class KNN {
 				+ Helpers.interpretUnsigned(bits) + "\n\tinterpretée comme byte signé donne "
 				+ Helpers.interpretSigned(bits));
 		System.out.println(Helpers.byteToBinaryString (b1));*/
-		int TESTS = 700 ;
+		int TESTS = 100 ;
 		int K = 1 ;
 		byte[][][] trainImages = parseIDXimages(Helpers.readBinaryFile("datasets/5000-per-digit_images_train")) ;
 		byte[] trainLabels = parseIDXlabels(Helpers.readBinaryFile("datasets/5000-per-digit_labels_train")) ;
 		byte[][][] testImages = parseIDXimages(Helpers.readBinaryFile("datasets/10k_images_test")) ;
 		byte[] testLabels = parseIDXlabels(Helpers.readBinaryFile("datasets/10k_labels_test")) ;
 		byte[] predictions = new byte[TESTS] ;
+		long start = System.currentTimeMillis () ; 	//calcul du temps 
 		for (int i = 0 ; i < TESTS ; i++) {
 			predictions[i] = knnClassify(testImages[i], trainImages , trainLabels , K) ;
 			}
-		Helpers.show("Test", testImages , predictions , testLabels , 20, 35) ;
+		long end = System.currentTimeMillis () ;
+		double time = (end - start) / 1000d ;
+		System.out.println("Accuracy = " + accuracy(predictions , Arrays.copyOfRange(testLabels , 0, TESTS)) + " %") ;
+		System.out.println("Time = " + time + " seconds") ;
+		System.out.println("Time per test image = " + (time / TESTS)) ;
+		
+		Helpers.show("Test", testImages , predictions , testLabels , 10, 10) ;
+		
 	}
 	/**
 	 * Composes four bytes into an integer using big endian convention.
