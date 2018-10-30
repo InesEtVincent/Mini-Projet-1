@@ -44,9 +44,6 @@ public class KNN {
 		}
 		long end = System.currentTimeMillis () ;
 		double time = (end - start) / 1000d ;
-<<<<<<< HEAD
-		System.out.println("Accuracy = " + accuracy(predictions , Arrays.copyOfRange(testLabels , 0, TESTS))) ;
-=======
 		int e=0;
 		for (int i = 0; i < rate.length; i++) {
 			if (rate[i]!=0) {
@@ -59,7 +56,6 @@ public class KNN {
 			System.out.println("---Aucun test n'a échoué !---");
 		}
 		System.out.println("Accuracy = " + accuracy(predictions , Arrays.copyOfRange(testLabels , 0, TESTS))*100 + " %") ;
->>>>>>> cdb040312f09a9f5172b12133f2c6650471c6be7
 		System.out.println("Time = " + time + " seconds") ;
 		System.out.println("Time per test image = " + (time / TESTS)) ;
 
