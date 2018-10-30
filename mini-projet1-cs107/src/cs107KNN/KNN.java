@@ -5,61 +5,23 @@ import java.util.Arrays;
 public class KNN {
 	public static void main(String[] args) {
 
-		/*
-		byte b1 = 0; // 00101000
-		byte b2 = 0; // 00010100
-		byte b3 = 8; // 00001010
-		byte b4 = 3; // 10000101
+		
+		byte b1 = 40; // 00101000
+		byte b2 = 20; // 00010100
+		byte b3 = 10; // 00001010
+		byte b4 = 5; // 10000101
 
 		// [00101000 | 00010100 | 00001010 | 00000101] = 672401925
 		int result = extractInt(b1, b2, b3, b4);
 		System.out.println(result);
 
-		String bits = "11111110";
+		String bits = "10000001";
 		System.out.println("La séquence de bits " + bits + "\n\tinterprétée comme byte non signé donne "
 				+ Helpers.interpretUnsigned(bits) + "\n\tinterpretée comme byte signé donne "
 				+ Helpers.interpretSigned(bits));
-		System.out.println(Helpers.byteToBinaryString (b1));*/
-		int TESTS = 20 ;
-		int K = 1 ;
-		byte[][][] trainImages = parseIDXimages(Helpers.readBinaryFile("datasets/5000-per-digit_images_train")) ;
-		byte[] trainLabels = parseIDXlabels(Helpers.readBinaryFile("datasets/5000-per-digit_labels_train")) ;
-		byte[][][] testImages = parseIDXimages(Helpers.readBinaryFile("datasets/10k_images_test")) ;
-		byte[] testLabels = parseIDXlabels(Helpers.readBinaryFile("datasets/10k_labels_test")) ;
-		byte[] predictions = new byte[TESTS] ;
-		long start = System.currentTimeMillis () ; 	//calcul du temps 
-		int[] rate = new int [TESTS];
-		int d=0;
-		for (int i = 0 ; i < TESTS ; i++) {
-			predictions[i] = knnClassify(testImages[i], trainImages , trainLabels , K) ;
-			System.out.println("Test n°" + i);
-			if (predictions[i]==testLabels[i]) {
-				System.out.println(" réussi");
-			}
-			else {
-				System.out.println(" raté");
-				rate[d]=i;
-			}
-			d=d+1;
-		}
-		long end = System.currentTimeMillis () ;
-		double time = (end - start) / 1000d ;
-		int e=0;
-		for (int i = 0; i < rate.length; i++) {
-			if (rate[i]!=0) {
-			System.out.println("Le test n°" + rate[i]+ " a echoué. Nous attendions un "+ 
-			testLabels[i] +" alors que l'ordinateur a prédit un " + predictions[i] + ".");
-			e+=1;
-			}
-		}
-		if(e==0) {
-			System.out.println("---Aucun test n'a échoué !---");
-		}
-		System.out.println("Accuracy = " + accuracy(predictions , Arrays.copyOfRange(testLabels , 0, TESTS))*100 + " %") ;
-		System.out.println("Time = " + time + " seconds") ;
-		System.out.println("Time per test image = " + (time / TESTS)) ;
-
-		Helpers.show("Test", testImages , predictions , testLabels , (int)(Math.sqrt(TESTS)), (int)(Math.sqrt(TESTS))) ;
+		System.out.println(Helpers.byteToBinaryString (b1));
+		
+		test();
 
 	}
 	/**
@@ -354,5 +316,48 @@ public class KNN {
 
 		}
 		return a;
+	}
+	
+	public static void test( ) {
+		int TESTS = 100 ;
+		int K = 1 ;
+		byte[][][] trainImages = parseIDXimages(Helpers.readBinaryFile("datasets/5000-per-digit_images_train")) ;
+		byte[] trainLabels = parseIDXlabels(Helpers.readBinaryFile("datasets/5000-per-digit_labels_train")) ;
+		byte[][][] testImages = parseIDXimages(Helpers.readBinaryFile("datasets/10k_images_test")) ;
+		byte[] testLabels = parseIDXlabels(Helpers.readBinaryFile("datasets/10k_labels_test")) ;
+		byte[] predictions = new byte[TESTS] ;
+		long start = System.currentTimeMillis () ; 	//calcul du temps 
+		int[] rate = new int [TESTS];
+		int d=0;
+		for (int i = 0 ; i < TESTS ; i++) {
+			predictions[i] = knnClassify(testImages[i], trainImages , trainLabels , K) ;
+			System.out.println("Test n°" + i);
+			if (predictions[i]==testLabels[i]) {
+				System.out.println(" réussi");
+			}
+			else {
+				System.out.println(" raté");
+				rate[d]=i;
+			}
+			d=d+1;
+		}
+		long end = System.currentTimeMillis () ;
+		double time = (end - start) / 1000d ;
+		int e=0;
+		for (int i = 0; i < rate.length; i++) {
+			if (rate[i]!=0) {
+			System.out.println("Le test n°" + rate[i]+ " a echoué. Nous attendions un "+ 
+			testLabels[i] +" alors que l'ordinateur a prédit un " + predictions[i] + ".");
+			e+=1;
+			}
+		}
+		if(e==0) {
+			System.out.println("---Aucun test n'a échoué !---");
+		}
+		System.out.println("Accuracy = " + accuracy(predictions , Arrays.copyOfRange(testLabels , 0, TESTS))*100 + " %") ;
+		System.out.println("Time = " + time + " seconds") ;
+		System.out.println("Time per test image = " + (time / TESTS)) ;
+
+		Helpers.show("Test", testImages , predictions , testLabels , (int)(Math.sqrt(TESTS)), (int)(Math.sqrt(TESTS))) ;
 	}
 }
