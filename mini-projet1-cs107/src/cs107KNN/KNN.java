@@ -5,10 +5,11 @@ import java.util.Arrays;
 public class KNN {
 	public static void main(String[] args) {
 
+		test(10,1);
 		
-		byte b1 = 40; // 00101000
+		/*byte b1 = 40; // 00101000
 		byte b2 = 20; // 00010100
-		byte b3 = 10; // 00001010
+		byte b3 = 10; // 00001010							//test de début
 		byte b4 = 5; // 10000101
 
 		// [00101000 | 00010100 | 00001010 | 00000101] = 672401925
@@ -19,10 +20,7 @@ public class KNN {
 		System.out.println("La séquence de bits " + bits + "\n\tinterprétée comme byte non signé donne "
 				+ Helpers.interpretUnsigned(bits) + "\n\tinterpretée comme byte signé donne "
 				+ Helpers.interpretSigned(bits));
-		System.out.println(Helpers.byteToBinaryString (b1));
-		
-		test();
-
+		System.out.println(Helpers.byteToBinaryString (b1));*/
 	}
 	/**
 	 * Composes four bytes into an integer using big endian convention.
@@ -294,7 +292,6 @@ public class KNN {
 		byte resultat = electLabel(Indices, trainLabels, k);
 
 		return resultat;
-
 	}
 
 	/**
@@ -318,9 +315,8 @@ public class KNN {
 		return a;
 	}
 	
-	public static void test( ) {
-		int TESTS = 100 ;
-		int K = 1 ;
+	public static void test(int TESTS, int K) {
+		
 		byte[][][] trainImages = parseIDXimages(Helpers.readBinaryFile("datasets/5000-per-digit_images_train")) ;
 		byte[] trainLabels = parseIDXlabels(Helpers.readBinaryFile("datasets/5000-per-digit_labels_train")) ;
 		byte[][][] testImages = parseIDXimages(Helpers.readBinaryFile("datasets/10k_images_test")) ;
@@ -331,7 +327,7 @@ public class KNN {
 		int d=0;
 		for (int i = 0 ; i < TESTS ; i++) {
 			predictions[i] = knnClassify(testImages[i], trainImages , trainLabels , K) ;
-			System.out.println("Test n°" + i);
+			/*System.out.println("Test n°" + i);
 			if (predictions[i]==testLabels[i]) {
 				System.out.println(" réussi");
 			}
@@ -339,7 +335,7 @@ public class KNN {
 				System.out.println(" raté");
 				rate[d]=i;
 			}
-			d=d+1;
+			d=d+1;*/
 		}
 		long end = System.currentTimeMillis () ;
 		double time = (end - start) / 1000d ;
