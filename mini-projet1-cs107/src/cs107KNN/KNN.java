@@ -43,6 +43,9 @@ public class KNN {
 	 * @return A tensor of images
 	 */
 	public static byte[][][] parseIDXimages(byte[] data) {
+		if(extractInt(data[0], data[1], data[2], data[3]) != 2051) {
+			return null;
+		} else {
 		int nombreImages = extractInt(data[4], data[5], data[6], data[7]);
 		int hauteurImage = extractInt(data[8], data[9], data[10], data[11]);
 		int largeurImage = extractInt(data[12], data[13], data[14],data[15]);
@@ -62,6 +65,7 @@ public class KNN {
 			}
 		}
 		return tensor;
+		}
 	}
 
 	/**
@@ -71,8 +75,10 @@ public class KNN {
 	 *
 	 * @return the parsed labels
 	 */
-	byte labels[] = Helpers.readBinaryFile("10-per-digit_labels_train");
 	public static byte[] parseIDXlabels(byte[] data) {
+		if(extractInt(data[0], data[1], data[2], data[3]) != 2049) {
+			return null;
+		} else {
 		int nombreLabels = extractInt(data[4], data[5], data[6], data[7]);
 		byte[] tensor= new byte[nombreLabels];
 		for (int i = 0; i < data.length; i++) {
@@ -81,6 +87,7 @@ public class KNN {
 			}
 		}
 		return tensor;
+		}
 	}
 
 	/**
@@ -283,7 +290,6 @@ public class KNN {
 	 * @return the label of the image
 	 */
 	public static byte knnClassify(byte[][] image, byte[][][] trainImages, byte[] trainLabels, int k) {
-		// TODO: Implémenter
 		float distances[] = new float[trainImages.length];
 		for(int i = 0; i < trainImages.length; i++) {
 			distances[i] = invertedSimilarity(image, trainImages[i]);
