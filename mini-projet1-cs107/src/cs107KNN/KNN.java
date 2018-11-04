@@ -309,7 +309,6 @@ public class KNN {
 	 * @return the accuracy of the predictions. Its value is in [0, 1]
 	 */
 	public static double accuracy(byte[] predictedLabels, byte[] trueLabels) {
-		// TODO: Implémenter
 		double a = 0;
 		double n = trueLabels.length;
 		for(int i = 0; i < n; i++) {
