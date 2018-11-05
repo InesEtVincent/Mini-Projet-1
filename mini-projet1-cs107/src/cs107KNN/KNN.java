@@ -5,8 +5,7 @@ import java.util.Arrays;
 public class KNN {
 	public static void main(String[] args) {
 
-		test(10,1, true); // test(nombre image à tester, K , boolean affiche ou non le test actuel);
-
+		test(100,7, true); // test(nombre image à tester, K , boolean affiche ou non le test actuel);
 
 		/*byte b1 = 40; // 00101000
 		byte b2 = 20; // 00010100
@@ -332,14 +331,15 @@ public class KNN {
 
 	public static void test(int TESTS, int K, boolean affiche) {
 
-		byte[][][] trainImages = parseIDXimages(Helpers.readBinaryFile("datasets/5000-per-digit_images_train")) ;
-		byte[] trainLabels = parseIDXlabels(Helpers.readBinaryFile("datasets/5000-per-digit_labels_train")) ;
+		byte[][][] trainImages = parseIDXimages(Helpers.readBinaryFile("datasets/1000-per-digit_images_train")) ;
+		byte[] trainLabels = parseIDXlabels(Helpers.readBinaryFile("datasets/1000-per-digit_labels_train")) ;
 		byte[][][] testImages = parseIDXimages(Helpers.readBinaryFile("datasets/10k_images_test")) ;
 		byte[] testLabels = parseIDXlabels(Helpers.readBinaryFile("datasets/10k_labels_test")) ;
 		byte[] predictions = new byte[TESTS] ;
 		long start = System.currentTimeMillis () ; 	//calcul du temps 
 		int[] rate = new int [TESTS];
 		int d=0;
+		int e=0;
 		for (int i = 0 ; i < TESTS ; i++) {
 			predictions[i] = knnClassify(testImages[i], trainImages , trainLabels , K) ;
 			if (affiche) {
@@ -351,22 +351,26 @@ public class KNN {
 				else {
 					System.out.println(" raté");
 					rate[d]=i;
+					e+=1;
 				}
 				d=d+1;
 			}
 		}
 		long end = System.currentTimeMillis () ;
 		double time = (end - start) / 1000d ;
-		int e=0;
+
 		for (int i = 0; i < rate.length; i++) {
 			if (rate[i]!=0) {
 				System.out.println("Le test n°" + rate[i]+ " a echoué. Nous attendions un "+ 
 						testLabels[i] +" alors que l'ordinateur a prédit un " + predictions[i] + ".");
-				e+=1;
+				
 			}
 		}
 		if(e==0) {
 			System.out.println("---Aucun test n'a échoué !---");
+		}
+		else {
+			System.out.println("-- Nombre de tests echoués : " + e + " ! --");
 		}
 		System.out.println("Accuracy = " + accuracy(predictions , Arrays.copyOfRange(testLabels , 0, TESTS))*100 + " %") ;
 		System.out.println("Time = " + time + " seconds") ;
