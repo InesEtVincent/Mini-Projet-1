@@ -5,7 +5,8 @@ import java.util.Arrays;
 public class KNN {
 	public static void main(String[] args) {
 
-		test(10,1);
+		test(1000,1, true); // test(nombre image à tester, K , boolean affiche ou non le test actuel);
+
 		
 		/*byte b1 = 40; // 00101000
 		byte b2 = 20; // 00010100
@@ -43,6 +44,7 @@ public class KNN {
 	 * @return A tensor of images
 	 */
 	public static byte[][][] parseIDXimages(byte[] data) {
+		int magicNumber = extractInt(data[0], data[1],data[2],data[3]);
 		int nombreImages = extractInt(data[4], data[5], data[6], data[7]);
 		int hauteurImage = extractInt(data[8], data[9], data[10], data[11]);
 		int largeurImage = extractInt(data[12], data[13], data[14],data[15]);
@@ -61,7 +63,11 @@ public class KNN {
 				}
 			}
 		}
-		return tensor;
+		if (magicNumber!=2051) {
+			return null;
+		} else {
+			return tensor;
+		}
 	}
 
 	/**
@@ -73,6 +79,7 @@ public class KNN {
 	 */
 	byte labels[] = Helpers.readBinaryFile("10-per-digit_labels_train");
 	public static byte[] parseIDXlabels(byte[] data) {
+		int magicNumber = extractInt(data[0],data[1], data[2], data[3]);
 		int nombreLabels = extractInt(data[4], data[5], data[6], data[7]);
 		byte[] tensor= new byte[nombreLabels];
 		for (int i = 0; i < data.length; i++) {
@@ -80,7 +87,11 @@ public class KNN {
 				tensor[i]= data[i+8];
 			}
 		}
-		return tensor;
+		if (magicNumber!=2049) {
+			return null;
+		} else {
+			return tensor;
+		}
 	}
 
 	/**
@@ -314,9 +325,9 @@ public class KNN {
 		}
 		return a;
 	}
-	
-	public static void test(int TESTS, int K) {
-		
+
+	public static void test(int TESTS, int K, boolean affiche) {
+
 		byte[][][] trainImages = parseIDXimages(Helpers.readBinaryFile("datasets/5000-per-digit_images_train")) ;
 		byte[] trainLabels = parseIDXlabels(Helpers.readBinaryFile("datasets/5000-per-digit_labels_train")) ;
 		byte[][][] testImages = parseIDXimages(Helpers.readBinaryFile("datasets/10k_images_test")) ;
@@ -327,24 +338,27 @@ public class KNN {
 		int d=0;
 		for (int i = 0 ; i < TESTS ; i++) {
 			predictions[i] = knnClassify(testImages[i], trainImages , trainLabels , K) ;
-			/*System.out.println("Test n°" + i);
-			if (predictions[i]==testLabels[i]) {
-				System.out.println(" réussi");
+			if (affiche) {
+				System.out.println("Test n°" + i);
+
+				if (predictions[i]==testLabels[i]) {
+					System.out.println(" réussi");
+				}
+				else {
+					System.out.println(" raté");
+					rate[d]=i;
+				}
+				d=d+1;
 			}
-			else {
-				System.out.println(" raté");
-				rate[d]=i;
-			}
-			d=d+1;*/
 		}
 		long end = System.currentTimeMillis () ;
 		double time = (end - start) / 1000d ;
 		int e=0;
 		for (int i = 0; i < rate.length; i++) {
 			if (rate[i]!=0) {
-			System.out.println("Le test n°" + rate[i]+ " a echoué. Nous attendions un "+ 
-			testLabels[i] +" alors que l'ordinateur a prédit un " + predictions[i] + ".");
-			e+=1;
+				System.out.println("Le test n°" + rate[i]+ " a echoué. Nous attendions un "+ 
+						testLabels[i] +" alors que l'ordinateur a prédit un " + predictions[i] + ".");
+				e+=1;
 			}
 		}
 		if(e==0) {
