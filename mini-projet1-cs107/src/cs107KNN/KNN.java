@@ -5,8 +5,8 @@ import java.util.Arrays;
 public class KNN {
 	public static void main(String[] args) {
 
-		test(10,1);
-		
+		test(100,7, true); // test(nombre image à tester, K , boolean affiche ou non le test actuel);
+
 		/*byte b1 = 40; // 00101000
 		byte b2 = 20; // 00010100
 		byte b3 = 10; // 00001010							//test de début
@@ -43,28 +43,33 @@ public class KNN {
 	 * @return A tensor of images
 	 */
 	public static byte[][][] parseIDXimages(byte[] data) {
-		if(extractInt(data[0], data[1], data[2], data[3]) != 2051) {
+
+		int magicNumber = extractInt(data[0], data[1],data[2],data[3]);
+
+		if(magicNumber != 2051) {
 			return null;
 		} else {
-		int nombreImages = extractInt(data[4], data[5], data[6], data[7]);
-		int hauteurImage = extractInt(data[8], data[9], data[10], data[11]);
-		int largeurImage = extractInt(data[12], data[13], data[14],data[15]);
-		byte[][][] tensor = new byte[nombreImages][hauteurImage][largeurImage];
 
-		for (int i = 16; i < data.length; i++) {
-			byte pixel=data[i];
-			byte pixelValue = (byte) ((pixel & 0xFF) - 128) ;
-			data[i]=pixelValue;
-		}
+			int nombreImages = extractInt(data[4], data[5], data[6], data[7]);
+			int hauteurImage = extractInt(data[8], data[9], data[10], data[11]);
+			int largeurImage = extractInt(data[12], data[13], data[14],data[15]);
+			byte[][][] tensor = new byte[nombreImages][hauteurImage][largeurImage];
 
-		for (int i = 0; i < nombreImages; i++) {
-			for (int j = 0; j < hauteurImage; j++) {
-				for (int j2 = 0; j2 < largeurImage; j2++) {
-					tensor[i][j][j2]=data[16+j2+i*largeurImage*hauteurImage+j*largeurImage];
+			for (int i = 16; i < data.length; i++) {
+				byte pixel=data[i];
+				byte pixelValue = (byte) ((pixel & 0xFF) - 128) ;
+				data[i]=pixelValue;
+			}
+
+			for (int i = 0; i < nombreImages; i++) {
+				for (int j = 0; j < hauteurImage; j++) {
+					for (int j2 = 0; j2 < largeurImage; j2++) {
+						tensor[i][j][j2]=data[16+j2+i*largeurImage*hauteurImage+j*largeurImage];
+					}
 				}
 			}
-		}
-		return tensor;
+			return tensor;
+
 		}
 	}
 
@@ -76,17 +81,21 @@ public class KNN {
 	 * @return the parsed labels
 	 */
 	public static byte[] parseIDXlabels(byte[] data) {
-		if(extractInt(data[0], data[1], data[2], data[3]) != 2049) {
+
+		int magicNumber = extractInt(data[0],data[1], data[2], data[3]);
+
+		if(magicNumber != 2049) {
 			return null;
 		} else {
-		int nombreLabels = extractInt(data[4], data[5], data[6], data[7]);
-		byte[] tensor= new byte[nombreLabels];
-		for (int i = 0; i < data.length; i++) {
-			if (i<data.length-8) {
-				tensor[i]= data[i+8];
+
+			int nombreLabels = extractInt(data[4], data[5], data[6], data[7]);
+			byte[] tensor= new byte[nombreLabels];
+			for (int i = 0; i < data.length; i++) {
+				if (i<data.length-8) {
+					tensor[i]= data[i+8];
+				}
 			}
-		}
-		return tensor;
+			return tensor;
 		}
 	}
 
@@ -319,41 +328,49 @@ public class KNN {
 		}
 		return a;
 	}
-	
-	public static void test(int TESTS, int K) {
-		
-		byte[][][] trainImages = parseIDXimages(Helpers.readBinaryFile("datasets/5000-per-digit_images_train")) ;
-		byte[] trainLabels = parseIDXlabels(Helpers.readBinaryFile("datasets/5000-per-digit_labels_train")) ;
+
+	public static void test(int TESTS, int K, boolean affiche) {
+
+		byte[][][] trainImages = parseIDXimages(Helpers.readBinaryFile("datasets/1000-per-digit_images_train")) ;
+		byte[] trainLabels = parseIDXlabels(Helpers.readBinaryFile("datasets/1000-per-digit_labels_train")) ;
 		byte[][][] testImages = parseIDXimages(Helpers.readBinaryFile("datasets/10k_images_test")) ;
 		byte[] testLabels = parseIDXlabels(Helpers.readBinaryFile("datasets/10k_labels_test")) ;
 		byte[] predictions = new byte[TESTS] ;
 		long start = System.currentTimeMillis () ; 	//calcul du temps 
 		int[] rate = new int [TESTS];
 		int d=0;
+		int e=0;
 		for (int i = 0 ; i < TESTS ; i++) {
 			predictions[i] = knnClassify(testImages[i], trainImages , trainLabels , K) ;
-			/*System.out.println("Test n°" + i);
-			if (predictions[i]==testLabels[i]) {
-				System.out.println(" réussi");
+			if (affiche) {
+				System.out.println("Test n°" + i);
+
+				if (predictions[i]==testLabels[i]) {
+					System.out.println(" réussi");
+				}
+				else {
+					System.out.println(" raté");
+					rate[d]=i;
+					e+=1;
+				}
+				d=d+1;
 			}
-			else {
-				System.out.println(" raté");
-				rate[d]=i;
-			}
-			d=d+1;*/
 		}
 		long end = System.currentTimeMillis () ;
 		double time = (end - start) / 1000d ;
-		int e=0;
+
 		for (int i = 0; i < rate.length; i++) {
 			if (rate[i]!=0) {
-			System.out.println("Le test n°" + rate[i]+ " a echoué. Nous attendions un "+ 
-			testLabels[i] +" alors que l'ordinateur a prédit un " + predictions[i] + ".");
-			e+=1;
+				System.out.println("Le test n°" + rate[i]+ " a echoué. Nous attendions un "+ 
+						testLabels[i] +" alors que l'ordinateur a prédit un " + predictions[i] + ".");
+				
 			}
 		}
 		if(e==0) {
 			System.out.println("---Aucun test n'a échoué !---");
+		}
+		else {
+			System.out.println("-- Nombre de tests echoués : " + e + " ! --");
 		}
 		System.out.println("Accuracy = " + accuracy(predictions , Arrays.copyOfRange(testLabels , 0, TESTS))*100 + " %") ;
 		System.out.println("Time = " + time + " seconds") ;
