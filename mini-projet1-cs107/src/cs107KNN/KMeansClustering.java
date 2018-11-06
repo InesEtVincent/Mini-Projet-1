@@ -47,6 +47,9 @@ public class KMeansClustering {
      */
 	public static byte[] encodeIDXlabels(byte[] labels) {
 		// TODO: Implémenter
+		for(int i = 0; i < labels.length; i++) {
+			
+		}
 		return null;
 	}
 
@@ -60,7 +63,11 @@ public class KMeansClustering {
      * the others will follow at offset + 1, offset + 2, offset + 3
      */
 	public static void encodeInt(int n, byte[] destination, int offset) {
-		// TODO: Implémenter
+		destination[offset] = (byte) (n&0xFF);
+		destination[offset + 1] = (byte) ((n&0xFF) >> 8);
+		destination[offset + 2] = (byte) ((n&0xFF) >> 16);
+		destination[offset + 3] = (byte) ((n&0xFF) >> 24); //inverse de extractInt
+		//prend les 8 premiers bites d'un int, stocke dans le tableau, ensuite les huit suivants, etc...
 	}
 
     /**
