@@ -293,9 +293,9 @@ public class KNN {
 		float distances[] = new float[trainImages.length];
 		for(int i = 0; i < trainImages.length; i++) {
 			distances[i] = invertedSimilarity(image, trainImages[i]);
-		}
+		} //cherche la distance entre une image et (toutes) les images d'entrainement
 		int Indices[] = quicksortIndices(distances);
-		byte resultat = electLabel(Indices, trainLabels, k);
+		byte resultat = electLabel(Indices, trainLabels, k); 
 
 		return resultat;
 	}
