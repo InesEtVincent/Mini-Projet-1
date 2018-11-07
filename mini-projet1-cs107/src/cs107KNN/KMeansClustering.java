@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class KMeansClustering {
 	public static void main(String[] args) {
-		int K = 5000;
+		int K = 1000;
 		int maxIters = 20;
 		byte[] test = new byte[8];
 		encodeInt(2051,test,0);
@@ -33,6 +33,7 @@ public class KMeansClustering {
 
 		Helpers.writeBinaryFile("datasets/reduced10Kto1K_images", encodeIDXimages(reducedImages));
 		Helpers.writeBinaryFile("datasets/reduced10Kto1K_labels", encodeIDXlabels(reducedLabels));
+		 KNN.test(100, 7, true);
 		 
 	}
 
@@ -44,7 +45,10 @@ public class KMeansClustering {
 	 * @return the array of byte ready to be written to an IDX file
 	 */
 	public static byte[] encodeIDXimages(byte[][][] images) {
-		byte[] idx = new byte[images.length + 16];
+		int nbrImage = images.length;
+		int hauteurImage = images[0].length;
+		int largeurImage = images[0][0].length;
+		byte[] idx = new byte[images.length * hauteurImage * largeurImage + 16];
 		encodeInt(2051, idx, 0);
 		encodeInt(images.length, idx, 4);
 		encodeInt(images[0].length, idx, 8);
@@ -54,7 +58,7 @@ public class KMeansClustering {
 		for(int i = 0; i < images.length; i++) {
 			for (int j = 0; j < images[i].length; j++) {
 				for (int j2 = 0; j2 < images[i][j].length; j2++) {
-					idx[16+j2+i*images[0][0].length*images[0].length+j*images[0][0].length]=images[i][j][j2];
+					idx[16+j2+i*largeurImage*hauteurImage+j*largeurImage]=images[i][j][j2];
 				}
 			}
 		}
@@ -79,8 +83,8 @@ public class KMeansClustering {
 		byte[] idx = new byte[labels.length + 8];
 		encodeInt(2049, idx, 0);
 		encodeInt(labels.length, idx, 4);
-		for(int i = 0; i < labels.length; i++) {
-			encodeInt(labels[i], idx, 5 + (i*4));
+		for(int i = 8; i < labels.length-16; i++) {
+			encodeInt(labels[i], idx, (i*4));
 		}
 		return idx;
 	}

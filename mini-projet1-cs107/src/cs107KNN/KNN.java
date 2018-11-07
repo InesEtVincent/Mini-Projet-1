@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class KNN {
 	public static void main(String[] args) {
 
-		test(10,7, true); // test(nombre image à tester, K , boolean affiche ou non le test actuel);
+		test(1000,7, true); // test(nombre image à tester, K , boolean affiche ou non le test actuel);
 		
 		/*byte b1 = 40; // 00101000
 		byte b2 = 20; // 00010100
@@ -331,8 +331,10 @@ public class KNN {
 
 	public static void test(int TESTS, int K, boolean affiche) {
 
-		byte[][][] trainImages = parseIDXimages(Helpers.readBinaryFile("datasets/5000-per-digit_images_train")) ;
-		byte[] trainLabels = parseIDXlabels(Helpers.readBinaryFile("datasets/5000-per-digit_labels_train")) ;
+		//byte[][][] trainImages = parseIDXimages(Helpers.readBinaryFile("datasets/5000-per-digit_images_train")) ;
+		//byte[] trainLabels = parseIDXlabels(Helpers.readBinaryFile("datasets/5000-per-digit_labels_train")) ;
+		byte[][][] trainImages = parseIDXimages(Helpers.readBinaryFile("datasets/reduced10Kto1K_images")) ;
+		byte[] trainLabels = parseIDXlabels(Helpers.readBinaryFile("datasets/reduced10Kto1K_labels")) ;
 		byte[][][] testImages = parseIDXimages(Helpers.readBinaryFile("datasets/10k_images_test")) ;
 		byte[] testLabels = parseIDXlabels(Helpers.readBinaryFile("datasets/10k_labels_test")) ;
 		byte[] predictions = new byte[TESTS] ;
