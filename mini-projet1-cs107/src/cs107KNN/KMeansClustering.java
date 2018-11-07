@@ -44,24 +44,11 @@ public class KMeansClustering {
 	 */
 	public static byte[] encodeIDXimages(byte[][][] images) {
 		byte[] idx = new byte[images.length + 16];
-		byte[] magicNumber = encodeInt(2051, idx, 0);
-		byte[] nbrImages = encodeInt(images.length, idx, 4);
-		byte[] hauteurImage = encodeInt(images[0].length, idx, 8);
-		byte[] largeurImage = encodeInt(images[0][0].length, idx, 12);
-		for (int i = 0; i < idx.length; i++) {
-			if(i<4) {
-				idx[i]=magicNumber[i];
-			}
-			else if (i>4 && i<8) {
-				idx[i]=nbrImages[i];
-			}
-			else if (i>8 && i<12) {
-				idx[i]=hauteurImage[i];
-			}
-			else if (i>12 && i<16) {
-				idx[i]=largeurImage[i];
-			}	
-		}
+		encodeInt(2051, idx, 0);
+		encodeInt(images.length, idx, 4);
+		encodeInt(images[0].length, idx, 8);
+		encodeInt(images[0][0].length, idx, 12);
+		
 		
 		for(int i = 0; i < images.length; i++) {
 			for (int j = 0; j < images[i].length; j++) {
