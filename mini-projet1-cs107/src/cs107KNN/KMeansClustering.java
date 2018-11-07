@@ -34,7 +34,15 @@ public class KMeansClustering {
      * @return the array of byte ready to be written to an IDX file
      */
 	public static byte[] encodeIDXimages(byte[][][] images) {
-		// TODO: Implémenter
+		byte[] idx = new byte[images.length + 16];
+		encodeInt(2051, idx, 0);
+		encodeInt(images.length, idx, 4);
+		encodeInt(images[0].length, idx, 8);
+		encodeInt(images[0][0].length, idx, 12);
+		
+		for(int i = 0; i < images.length; i++) {
+			//a finir
+		}
 		return null;
 	}
 
@@ -46,11 +54,13 @@ public class KMeansClustering {
      * @return the array of bytes ready to be written to an IDX file
      */
 	public static byte[] encodeIDXlabels(byte[] labels) {
-		// TODO: Implémenter
+		byte[] idx = new byte[labels.length + 8];
+		encodeInt(2049, idx, 0);
+		encodeInt(labels.length, idx, 4);
 		for(int i = 0; i < labels.length; i++) {
-			
+			encodeInt(labels[i], idx, 5 + (i*4));
 		}
-		return null;
+		return idx;
 	}
 
     /**
@@ -111,6 +121,14 @@ public class KMeansClustering {
      *  if j is at position i, then image i belongs to cluster j
      */
 	public static void recomputeAssignments(byte[][][] tensor, byte[][][] centroids, int[] assignments) {
+		float distances[] = new float[centroids.length];
+		for(int i = 0; i < centroids.length; i++) {
+			for(int j = 0; j < centroids.length; j++) {
+				distances[j] = KNN.squaredEuclideanDistance(tensor[i], centroids[j]);
+			}
+			int[] indices = KNN.quicksortIndices(distances);
+			assignments[i] = indices[0];
+		}
 	}
 
     /**
@@ -122,6 +140,14 @@ public class KMeansClustering {
      *  if j is at position i, then image i belongs to cluster j
      */
 	public static void recomputeCentroids(byte[][][] tensor, byte[][][] centroids, int[] assignments) {
+		for(int i = 0; i < centroids.length; i++) {
+			ArrayList<Integer> temp = new ArrayList<Integer>();
+			for(int j = 0; j < assignments.length; j++) {
+				if(assignments[j] == i) {
+					temp.add(j);
+				}
+			}
+		}
 	}
 
     /**
