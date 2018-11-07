@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class KMeansClustering {
 	public static void main(String[] args) {
-		/*int K = 1000;
+		int K = 1000;
 		int maxIters = 20;
 		byte[] test = new byte[8];
 		encodeInt(2051,test,0);
@@ -32,8 +32,8 @@ public class KMeansClustering {
 		}
 
 		Helpers.writeBinaryFile("datasets/reduced10Kto1K_images", encodeIDXimages(reducedImages));
-		Helpers.writeBinaryFile("datasets/reduced10Kto1K_labels", encodeIDXlabels(reducedLabels));*/
-		 KNN.test(100, 7, true);
+		Helpers.writeBinaryFile("datasets/reduced10Kto1K_labels", encodeIDXlabels(reducedLabels));
+		 //KNN.test(100, 7, true);
 		 
 	}
 
