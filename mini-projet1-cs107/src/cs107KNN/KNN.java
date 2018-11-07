@@ -6,7 +6,7 @@ public class KNN {
 	public static void main(String[] args) {
 
 		test(10,7, true); // test(nombre image à tester, K , boolean affiche ou non le test actuel);
-
+		
 		/*byte b1 = 40; // 00101000
 		byte b2 = 20; // 00010100
 		byte b3 = 10; // 00001010							//test de début
