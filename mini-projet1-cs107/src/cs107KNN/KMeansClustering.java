@@ -9,8 +9,9 @@ public class KMeansClustering {
 	public static void main(String[] args) {
 		int K = 5000;
 		int maxIters = 20;
-		byte[] test = new byte[4];
+		byte[] test = new byte[8];
 		encodeInt(2051,test,0);
+		encodeInt(2049,test,4);
 
 		for (int i = 0; i < test.length; i++) {
 			System.out.print(test[i]);
@@ -19,7 +20,7 @@ public class KMeansClustering {
 
 
 		// TODO: Adaptez les parcours
-		/*	byte[][][] images = KNN.parseIDXimages(Helpers.readBinaryFile("datasets/1000-per-digit_images_train"));
+			byte[][][] images = KNN.parseIDXimages(Helpers.readBinaryFile("datasets/1000-per-digit_images_train"));
 		byte[] labels = KNN.parseIDXlabels(Helpers.readBinaryFile("datasets/1000-per-digit_labels_train"));
 
 		byte[][][] reducedImages = KMeansReduce(images, K, maxIters);
@@ -32,7 +33,7 @@ public class KMeansClustering {
 
 		Helpers.writeBinaryFile("datasets/reduced10Kto1K_images", encodeIDXimages(reducedImages));
 		Helpers.writeBinaryFile("datasets/reduced10Kto1K_labels", encodeIDXlabels(reducedLabels));
-		 */
+		 
 	}
 
 	/**
