@@ -84,7 +84,7 @@ public class KMeansClustering {
 		encodeInt(2049, idx, 0);
 		encodeInt(labels.length, idx, 4);
 		for(int i = 8; i < labels.length-16; i++) {
-			encodeInt(labels[i], idx, (i*4));
+			idx[i+8] = labels[i];
 		}
 		return idx;
 	}
