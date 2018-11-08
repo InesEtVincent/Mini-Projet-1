@@ -33,7 +33,7 @@ public class KMeansClustering {
 
 		Helpers.writeBinaryFile("datasets/reduced10Kto1K_images", encodeIDXimages(reducedImages));
 		Helpers.writeBinaryFile("datasets/reduced10Kto1K_labels", encodeIDXlabels(reducedLabels));
-		 KNN.test(1000, 7, true);
+		 KNN.test(10000, 7, true);
 		 
 	}
 
