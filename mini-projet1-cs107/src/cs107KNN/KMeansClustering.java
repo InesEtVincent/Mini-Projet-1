@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class KMeansClustering {
 	public static void main(String[] args) {
-		int K = 7;
+		int K = 1000;
 		int maxIters = 20;
 		byte[] test = new byte[8];
 		encodeInt(2051,test,0);
@@ -179,24 +179,8 @@ public class KMeansClustering {
 				if(assignments[j] == i) {
 					temp.add(j);
 				}
+				
 			}
-			int n = temp.size();
-			byte somme = 0;
-			if(n == 0) {
-				i++;
-			}else {
-			for(int x = 0; x < centroids[i].length; x++) {
-				for(int y = 0; y < centroids[i][x].length; y++) {
-					for(int image = 0; image < n; image++) {
-						somme += tensor[temp.get(image)][x][y];
-					}
-					
-					centroids[i][x][y] = (byte) ((1/n) * somme);
-				}
-			}
-			}
-			temp.clear();
-
 		}
 	}
 
