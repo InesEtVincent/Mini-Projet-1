@@ -182,6 +182,22 @@ public class KMeansClustering {
 				}
 				
 			}
+			int n = temp.size();
+            byte somme = 0;
+            if(n == 0) {
+                i++;
+            }else {
+            for(int x = 0; x < centroids[i].length; x++) {
+                for(int y = 0; y < centroids[i][x].length; y++) {
+                    for(int image = 0; image < n; image++) {
+                        somme += tensor[temp.get(image)][x][y];
+                    }
+
+                    centroids[i][x][y] = (byte) ((1/n) * somme);
+                }
+            }
+            }
+            temp.clear();
 		}
 	}
 
