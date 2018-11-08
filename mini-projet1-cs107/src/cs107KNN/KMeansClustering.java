@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class KMeansClustering {
 	public static void main(String[] args) {
-		int K = 1000;
+		int K = 7;
 		int maxIters = 20;
 		byte[] test = new byte[8];
 		encodeInt(2051,test,0);
@@ -19,7 +19,7 @@ public class KMeansClustering {
 		
 
 
-		// TODO: Adaptez les parcours
+
 		byte[][][] images = KNN.parseIDXimages(Helpers.readBinaryFile("datasets/1000-per-digit_images_train"));
 		byte[] labels = KNN.parseIDXlabels(Helpers.readBinaryFile("datasets/1000-per-digit_labels_train"));
 
@@ -33,7 +33,7 @@ public class KMeansClustering {
 
 		Helpers.writeBinaryFile("datasets/reduced10Kto1K_images", encodeIDXimages(reducedImages));
 		Helpers.writeBinaryFile("datasets/reduced10Kto1K_labels", encodeIDXlabels(reducedLabels));
-		 //KNN.test(100, 7, true);
+		 KNN.test(100, 7, true);
 		 
 	}
 
@@ -83,7 +83,7 @@ public class KMeansClustering {
 		byte[] idx = new byte[labels.length + 8];
 		encodeInt(2049, idx, 0);
 		encodeInt(labels.length, idx, 4);
-		for(int i = 0; i < labels.length-16; i++) {
+		for(int i = 0; i < labels.length; i++) {
 			idx[i+8] = labels[i];
 		}
 		return idx;
@@ -180,6 +180,7 @@ public class KMeansClustering {
 					temp.add(j);
 				}
 			}
+
 		}
 	}
 
