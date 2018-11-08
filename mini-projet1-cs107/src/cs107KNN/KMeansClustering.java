@@ -172,7 +172,7 @@ public class KMeansClustering {
 	 * @param assignments the vector indicating to what cluster each image belongs to.
 	 *  if j is at position i, then image i belongs to cluster j
 	 */
-	public static void recomputeCentroids(byte[][][] tensor, byte[][][] centroids, int[] assignments) {
+	public static void recomputeCentroids(byte tensor[][][], byte[][][] centroids, int[] assignments) {
 		for(int i = 0; i < centroids.length; i++) {
 			ArrayList<Integer> temp = new ArrayList<Integer>();
 			for(int j = 0; j < assignments.length; j++) {
@@ -180,6 +180,22 @@ public class KMeansClustering {
 					temp.add(j);
 				}
 			}
+			int n = temp.size();
+			byte somme = 0;
+			if(n == 0) {
+				i++;
+			}else {
+			for(int x = 0; x < centroids[i].length; x++) {
+				for(int y = 0; y < centroids[i][x].length; y++) {
+					for(int image = 0; image < n; image++) {
+						somme += tensor[temp.get(image)][x][y];
+					}
+					
+					centroids[i][x][y] = (byte) ((1/n) * somme);
+				}
+			}
+			}
+			temp.clear();
 
 		}
 	}
