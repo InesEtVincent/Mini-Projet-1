@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class KNN {
 	public static void main(String[] args) {
 
-		test(1000,7, true); // test(nombre image à tester, K , boolean affiche ou non le test actuel);
+		test(50,7, true); // test(nombre image à tester, K , boolean affiche ou non le test actuel);
 		
 		/*byte b1 = 40; // 00101000
 		byte b2 = 20; // 00010100
