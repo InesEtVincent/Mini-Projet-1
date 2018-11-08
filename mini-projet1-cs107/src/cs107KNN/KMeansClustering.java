@@ -9,14 +9,14 @@ public class KMeansClustering {
 	public static void main(String[] args) {
 		int K = 1000;
 		int maxIters = 20;
-		byte[] test = new byte[8];
+		/*byte[] test = new byte[8];
 		encodeInt(2051,test,0);
 		encodeInt(2049,test,4);
 
 		for (int i = 0; i < test.length; i++) {
 			System.out.print(test[i]);
 		}
-		
+		*/
 
 
 
@@ -33,7 +33,7 @@ public class KMeansClustering {
 
 		Helpers.writeBinaryFile("datasets/reduced10Kto1K_images", encodeIDXimages(reducedImages));
 		Helpers.writeBinaryFile("datasets/reduced10Kto1K_labels", encodeIDXlabels(reducedLabels));
-		 KNN.test(100, 7, true);
+		 KNN.test(1000, 7, true);
 		 
 	}
 
@@ -85,6 +85,7 @@ public class KMeansClustering {
 		encodeInt(labels.length, idx, 4);
 		for(int i = 0; i < labels.length; i++) {
 			idx[i+8] = labels[i];
+			System.out.println(labels[i]);
 		}
 		return idx;
 	}
@@ -106,7 +107,7 @@ public class KMeansClustering {
 		destination[offset + 2] = (byte) ((n&0xFF) >> 16);
 		destination[offset + 3] = (byte) ((n&0xFF) >> 24); */ //inverse de extractInt
 		//prend les 8 premiers bites d'un int, stocke dans le tableau, ensuite les huit suivants, etc...
-		destination[offset] = (byte) ((n) >>24);
+		destination[offset] = (byte) ((n) >> 24);
 		destination[offset + 1] = (byte) ((n) >> 16);
 		destination[offset + 2] = (byte) ((n) >> 8);
 		destination[offset + 3] = (byte) ((n) >> 0);
